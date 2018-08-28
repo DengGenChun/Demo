@@ -1,6 +1,4 @@
 **/.idea/
 instance/
 logger.log
-packages.bat
-run.bat
 run.sh
