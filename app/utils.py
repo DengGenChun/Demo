@@ -1,7 +1,6 @@
 # encoding = utf-8
 
 import datetime
-import uuid
 import random
 import time
 import hashlib
@@ -11,23 +10,22 @@ from flask import request
 from app import USR, PWD
 
 
-# 生成订单号
-# 毫秒数 + 机器编号[前4位] + 时间戳 + 随机4位数
-def order_no():
-    mac = str(uuid.UUID(int=uuid.getnode()).int)[:4]
-    date = datetime.datetime.now().strftime("%Y%m%d%H%M%S")
-    rand = str(random.randrange(1000, 9999))
+# 生成随机整数(18位)
+# 毫秒数(3位) + 时间戳(前5位) + 随机数(5位) + 时间戳(后5位)
+def random_id():
+    date = str(round(time.time()))
+    rand = str(random.randrange(10000, 99999))
     millis = datetime.datetime.utcnow().strftime('%f')[:-3]
-    return millis + mac + date + rand
+    return int(millis + date[:5] + rand + date[5:])
 
 
 def timestamp():
     return int(round(time.time() * 1000))
 
 
-def md5(pwd):
+def md5(string):
     m = hashlib.md5()
-    m.update(pwd.encode('utf-8'))
+    m.update(string.encode('utf-8'))
     return m.hexdigest()
 
 

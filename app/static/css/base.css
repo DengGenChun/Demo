@@ -1,0 +1,21 @@
+* {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	box-sizing: border-box;
+}
+body, html {
+	font-family: Helvetica Neue,Helvetica,microsoft yahei,arial,STHeiTi,sans-serif;
+	color: #666;
+	font-size: 14px;
+}
+div {
+	display: block;
+}
+img {
+	border: 0;
+	outline: 0;
+}
+a {
+	text-decoration: none;
+}

@@ -1,7 +1,9 @@
 # encoding = utf-8
 
 DEBUG = False
+HOST = '127.0.0.1'
 PORT = 5000
 SQLALCHEMY_TRACK_MODIFICATIONS = False
 MYSQL_DRIVER = 'pymysql'
 SECRET_KEY = 'SECRET_KEY'
+

@@ -1,0 +1,38 @@
+{
+	"contactPhone" : "17712345678",
+	"minCount" : 1,
+	"maxCount" : 10,
+	"currCount" : 1,
+	"firstImageSrc" : "images/0.jpg",
+	"detailImageSrc" : [
+		"images/1.jpg",
+		"images/2.jpg",
+		"images/3.jpg"
+	],
+	"selectedIndex" : 0,
+	"flags" : [
+		false,
+		false,
+		false
+	],
+	"items" : [
+		{
+			"itemId" : "917153528448454827",
+			"title": "升级版望远镜套装【送户外求生手环】",
+			"desc": "1折抢购！高倍高清望远镜！【可连手机拍摄】",
+			"price": 128
+		},
+		{
+			"itemId" : "1",
+			"title": "加强版望远镜套装【送户外求生手环】",
+			"desc": "1折抢购！高倍高清望远镜！【可连手机拍摄】",
+			"price": 168
+		},
+		{
+			"itemId" : "2",
+			"title": "【推荐】旗舰版望远镜套装【送户外求生手环】带指南针",
+			"desc": "1折抢购！高倍高清望远镜！【可连手机拍摄】带指南针",
+			"price": 199
+		}
+	]
+}

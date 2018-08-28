@@ -1,0 +1,337 @@
+.hide {
+	display: none!important;
+}
+.main {
+	width: 100%;
+	background: #fff;
+	margin: 0 auto;
+	display: block;
+}
+.main-container {
+	margin-top: 0px;
+}
+
+
+/*Image*/
+.first-image {
+	width: 100%;
+	bottom: 0;
+	padding: 0;
+	box-sizing: border-box;
+	text-align: center;
+	font-size: 0;
+	position: relative;
+}
+.detail-container .detail-image {
+	width: 100%;
+	vertical-align: top;
+}
+
+.price-buy-wrapper {
+	margin: 5px;
+	border-radius: 6px;
+	font-size: 18px;
+	overflow: hidden;
+}
+.index-price {
+	width: 40%;
+	height: 46px;
+	line-height: 46px;
+	color: #fff;
+    background-color: hsla(0, 0%, 100%, .15);
+	text-align: center;
+	float: left;
+}
+.index-buying {
+	width: 60%;
+	height: 46px;
+	line-height: 46px;
+	color: #fff;
+	text-align: center;
+	touch-action: pan-y;
+	user-select: none;
+	float: left;
+	display: block;
+}
+.icon-buying {
+	width: 22px;
+	height: 22px;
+	margin-right: 6px;
+	vertical-align: sub;
+	display: inline-block;
+}
+
+.order-header {
+	height: 50px;
+	line-height: 50px;
+	text-align: center;
+	border-top: 1px solid #edeef5;
+	font-size: 16px;
+}
+.order-fields {
+	width: 100%;
+	background: #f9f9f9;
+	padding: 15px;
+	border-top: 1px solid #edeef5;
+	border-bottom: 1px solid #edeef5;
+	display: inline-block;
+	box-sizing: border-box;
+}
+.order-fields .fields-group {
+	padding-bottom: 5px;
+	border-bottom: 1px solid #edeef5;
+}
+.order-fields .item-group {
+	margin-bottom: 20px;
+	position: relative;
+}
+.order-fields .required:before {
+	content: "*";
+	margin-right: 4px;
+	color: #ff4949;
+}
+.order-fields .optional:before {
+	content: "*";
+	margin-right: 4px;
+	opacity: 0;
+}
+
+
+/*Radio group*/
+.order-fields .radio-group > li {
+	list-style: none;
+	line-height: 16px;
+	font-size: 16px;
+	color: #333;
+	border-radius: 4px;
+	margin: 0 10px 10px 0;
+	cursor: pointer;
+	display: inline-block;
+}
+.order-fields .radio-group > li .radio-icon {
+	width: 18px;
+	height: 18px;
+	border-radius: 100%;
+	border: 2px solid #ccc;
+	vertical-align: bottom;
+	margin-right: 3px;
+	pointer-events: none;
+	display: inline-block;
+}
+.order-fields .radio-group > li.radio-active .radio-icon:before {
+	content: "";
+	width: 10px;
+	height: 10px;
+	margin: 2px;
+	border-radius: 100%;
+	background-color: #CF294F;
+	display: inline-block;
+}
+
+/*Product description*/
+.order-fields .product-desc .desc {
+	width: 100%;
+	margin: 10px 0;
+	font-size: 16px;
+	font-weight: 700;
+	color: #333;
+	display: inline-block;
+}
+
+/*Count selector*/
+.order-fields .count-container {
+	margin: 10px 0 20px;
+	padding-bottom: 10px;
+}
+.order-fields .count-container .count-tag {
+	padding-bottom: 6px;
+}
+.order-fields .count-container .count-selector {
+	line-height: 36px;
+	text-align: right;
+}
+#count-spinner {
+	text-align: center;
+	border: 1px solid #c5c5c5;
+	border-radius: 2px;
+	float: left;
+}
+#count-spinner .left {
+	border-right: 1px solid #c5c5c5;
+}
+#count-spinner .right {
+	border-left: 1px solid #c5c5c5;
+}
+#count-spinner .left.disabled, #count-spinner .right.disabled {
+	color: #c5c5c5;
+}
+#count-spinner .left, #count-spinner .right {
+	width: 32px;
+	height: 34px;
+	line-height: 34px;
+	font-size: 18px;
+	font-style: normal;
+	float: left;
+	cursor: pointer;
+	display: block;
+}
+#product-count {
+	width: 52px;
+	height: 34px;
+	line-height: 34px;
+	background-color: #fff;
+	float: left;
+	display: inline-block;
+}
+#price-sum {
+	font-size: 16px;
+	color: #CF294F;
+}
+
+
+.order-fields .item-group .item-label {
+    vertical-align: middle;
+    width: 60px;
+    line-height: 1;
+    font-size: 14px;
+    color: #485c6a;
+    padding: 11px 0;
+    text-align: left;
+    box-sizing: border-box;
+    float: left;
+}
+.order-fields .item-group .item-content {
+	margin-left: 61px;
+	line-height: 36px;
+	font-size: 14px;
+	position: relative;
+}
+.order-fields .item-group .item-input {
+	width: 100%;
+    line-height: 1;
+    height: 36px;
+    padding: 3px 10px;
+    color: #1f313d;
+	background: #fff none;
+	border-radius: 4px;
+    border: 1px solid #c5c5c5;
+    font-size: inherit;
+    outline: 0;
+    transition: border-color .2s cubic-bezier(.645,.045,.355,1);
+    box-sizing: border-box;
+    display: block;
+}
+.order-fields .item-group .msg-validate {
+	line-height: 1;
+	padding-top: 4px;
+	color: #ff4949;
+	font-size: 12px;
+	position: absolute;
+}
+#area-select .area-spinner {
+	width: 32%;
+	height: 36px;
+	margin-left: 0;
+	padding-right: 5px;
+	display: inline-block;
+}
+
+
+/*Submit*/
+.order-submit {
+	height: 46px;
+	line-height: 46px;
+	color: #fff;
+	touch-action: pan-y;
+	user-select: none;
+    -webkit-user-drag: none;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+.order-submit .order-submit-button {
+	background-color: #CF2A4F;
+	margin: 15px 10px 0;
+	border-radius: 4px;
+	font-size: 16px;
+	text-align: center;
+	display: block;
+}
+
+/*Bottom button*/
+#btn-list {
+	width: 100%;
+	bottom: 0;
+	text-align: center;
+	box-sizing: border-box;
+	box-shadow: 0 0 8px rgba(0,0,0,.2);
+	opacity: 1;
+	visibility: visible;
+	position: fixed;
+	z-index: 11;
+}
+#btn-list .btn-bottom > li {
+	height: 100%;
+	list-style: none;
+	text-align: center;
+	box-sizing: border-box;
+	float: left;
+}
+#btn-list .btn-bottom > li > a {
+	line-height: 14px;
+	font-size: 12px;
+	display: block;
+}
+#btn-list .btn-bottom .icon-phone {
+	background-image: url('/images/sprite.png');
+	background-position: -228px -62px;
+    width: 23px;
+    height: 22px;
+}
+.fade-out {
+	opacity: 0!important;
+    visibility: hidden!important;
+}
+
+
+.clear:after, .clear:before {
+	content: "";
+	clear: both;
+	display: table;
+}
+
+.pc {
+	width: 640px;
+    background-color: #fff;
+    margin: 0 auto;
+}
+
+
+/* Start by setting display:none to make this hidden.
+   Then we position it in relation to the viewport window
+   with position:fixed. Width, height, top and left speak
+   for themselves. Background we set to 80% white with
+   our animation centered, and no-repeating */
+.modal {
+    display:    none;
+    position:   fixed;
+    z-index:    1000;
+    top:        0;
+    left:       0;
+    height:     100%;
+    width:      100%;
+    background: rgba( 255, 255, 255, .8 )
+                url('/images/loading.gif')
+                50% 50%
+                no-repeat;
+}
+
+/* When the body has the loading class, we turn
+   the scrollbar off with overflow:hidden */
+body.loading {
+    overflow: hidden;
+}
+
+/* Anytime the body has the loading class, our
+   modal element will be visible */
+body.loading .modal {
+    display: block;
+}
