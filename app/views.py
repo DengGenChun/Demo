@@ -3,6 +3,6 @@
 from app import app
 
 
-@app.route('/VwqXrMRgdzjBpP69cSt6LhLHYAwCwyFL', methods=['GET'])
+@app.route('/VwqXrMRgdzjBpP69cSt6LhLHYAwCwyF', methods=['GET'])
 def home():
     return app.send_static_file('home.html')
