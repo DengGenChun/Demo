@@ -1,19 +1,13 @@
 # encoding = utf-8
 
-from flask import request
-from app import db, utils, wxsdk
-from app.order import bp
-from app.models import Order, Product
-from app.wxsdk.wxpay import WXPayError
 import logging
 
+from flask import request
 
-@bp.route('/testPost', methods=['POST'])
-def testPost():
-    xml = str(request.get_data(), encoding="utf-8")
-    print("xml:")
-    print(xml)
-    return 'Success'
+from app import db, utils, wxsdk
+from app.api import bp
+from app.models import Order, Product
+from app.wxsdk.wxpay import WXPayError
 
 
 @bp.route('/createOrder', methods=['GET'])
@@ -97,6 +91,8 @@ def verify_order(order_no):
     order = Order.query.filter_by(order_no=order_no).first()
     if order is None:
         return False
+    if order.trade_state == "SUCCESS":
+        return True
 
     data = dict()
     try:
@@ -106,6 +102,9 @@ def verify_order(order_no):
         return False
 
     order.trade_state = data["trade_state"]
+    order.trade_state_desc = data["trade_state_desc"]
+    if "transaction_id" in data:
+        order.transaction_id = data["transaction_id"]
     db.session.commit()
     if order.trade_state != "SUCCESS":
         return False
@@ -113,39 +112,70 @@ def verify_order(order_no):
     return True
 
 
-@bp.route('/list', methods=['GET'])
-@utils.check_admin
+@bp.route('/listOrder', methods=['GET'])
 def list_order():
-    order_no = request.args.get('order_no')
-    if order_no is None or order_no == '':
-        return utils.ret_err(-1, "order_no is required")
-    order = Order.query.filter_by(order_no=order_no).first()
-    return utils.ret_objs(order)
+    openid = request.cookies.get("openid")
+    if not openid:
+        return utils.ret_err(-1, "ERR_INVALID_OPENID")
+
+    order_no = request.args.get('order_no', '')
+    order = Order.query.filter_by(order_no=order_no, openid=openid).first()
+    if order is None:
+        return utils.ret_err(-1, 'order_no is wrong')
+
+    if not verify_order(order_no):
+        return utils.ret_err(-1, order.trade_state_desc)
+
+    p = order.product
+    obj = {
+        "order_no": order.order_no,
+        "transaction_id": order.transaction_id,
+        "title": p.title,
+        "detail": p.detail,
+        "price": p.price,
+        "count": order.p_count,
+        "price_sum": order.price_sum,
+        "username": order.username,
+        "phone": order.phone,
+        "address": order.address,
+        "comment": order.comment,
+    }
+    return utils.ret_objs(obj)
 
 
-@bp.route('/listAll', methods=['GET'])
-@utils.check_admin
+@bp.route('/listAllOrder', methods=['GET'])
 def list_all_order():
+    openid = request.cookies.get("openid")
+    if not openid:
+        return utils.ret_err(-1, "ERR_INVALID_OPENID")
+
     filters = dict()
+    filters.setdefault("openid", openid)
 
     trade_state = request.args.get('trade_state')
     if trade_state:
         filters['trade_state'] = trade_state
 
+    objs = []
     orders = Order.query.filter_by(**filters).all()
-    return utils.ret_objs(orders)
+    for order in orders:
+        p = order.product
+        obj = {
+            "order_no": order.order_no,
+            "transaction_id": order.transaction_id,
+            "title": p.title,
+            "detail": p.detail,
+            "price": p.price,
+            "count": order.p_count,
+            "price_sum": order.price_sum,
+            "username": order.username,
+            "phone": order.phone,
+            "address": order.address,
+            "comment": order.comment,
+        }
+        objs.append(obj)
 
-
-@bp.route('/listProduct', methods=['GET'])
-@utils.check_admin
-def list_product_by_order_no():
-    order_no = request.args.get('order_no')
-    if order_no is None or order_no == '':
-        return utils.ret_err(-1, "order_no is required")
-    order = Order.query.filter_by(order_no=order_no).first()
-    if order is not None:
-        return utils.ret_objs(order.product)
-    return utils.ret_err(-1, "Order doesn't exists")
+    return utils.ret_objs(objs)
 
 
 @bp.route('orderSuccess', methods=['GET'])
@@ -171,9 +201,5 @@ def order_success():
     <div>手机号：<span>{6}</span></div>
     <div>收货地址：<span>{7}</span></div>
     <div>留言：<span>{8}</span></div>
-    """.format(p.title, p.detail, p.price, order.p_count, order.price_sum, order.username, order.phone, order.address, order.comment)
-
-
-@bp.route('orderFail', methods=['GET'])
-def order_fail():
-    return "<h2>交易失败</h2>"
+    """.format(p.title, p.detail, p.price, order.p_count, order.price_sum, order.username,
+               order.phone, order.address, order.comment)

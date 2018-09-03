@@ -5,9 +5,6 @@ import random
 import time
 import hashlib
 import json
-from functools import wraps
-from flask import request
-from app import USR, PWD
 
 
 # 生成随机整数(18位)
@@ -27,17 +24,6 @@ def md5(string):
     m = hashlib.md5()
     m.update(string.encode('utf-8'))
     return m.hexdigest()
-
-
-def check_admin(func):
-    @wraps(func)
-    def wrapper_func(*args, **kwargs):
-        usr = request.args.get('usr', '')
-        pwd = request.args.get('pwd', '')
-        if usr == USR and md5(pwd) == PWD:
-            return func(*args, **kwargs)
-        return '<h1>404</h1>'
-    return wrapper_func
 
 
 def ret_err(code, msg):
@@ -60,7 +46,10 @@ def ret_objs(objs):
     result = []
     if isinstance(objs, list) or isinstance(objs, tuple):
         for obj in objs:
-            result.append(obj.asdict())
+            if hasattr(obj, 'asdict'):
+                result.append(obj.asdict())
+            else:
+                result.append(obj)
     elif hasattr(objs, 'asdict'):
         result = objs.asdict()
     else:

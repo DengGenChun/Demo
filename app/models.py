@@ -16,8 +16,10 @@ class Order(db.Model):
     address = db.Column(db.String(128), nullable=False)
     comment = db.Column(db.String(128))
     openid = db.Column(db.String(128), nullable=False)
+    transaction_id = db.Column(db.String(32), nullable=False, default='')
     trade_type = db.Column(db.String(16), nullable=False)
     trade_state = db.Column(db.String(32), nullable=False)
+    trade_state_desc = db.Column(db.String(256), nullable=False, default='')
     notify_state = db.Column(db.String(16), nullable=False, default='UNCHECKED')
     create_time = db.Column(db.BigInteger, nullable=False)
 
@@ -48,6 +50,7 @@ class Order(db.Model):
             "openid": self.openid,
             "trade_type": self.trade_type,
             "trade_state": self.trade_state,
+            "trade_state_desc": self.trade_state_desc,
             "notify_state": self.notify_state,
             "create_time": self.create_time
         }

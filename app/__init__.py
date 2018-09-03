@@ -18,12 +18,12 @@ USR = app.config['ADMIN_ACCOUNT']
 PWD = app.config['ADMIN_PASSWORD']
 
 from app import views
-from app.product import bp as product_bp
-from app.order import bp as order_bp
-from app.oauth import bp as oauth_bp
-app.register_blueprint(product_bp, url_prefix='/product')
-app.register_blueprint(order_bp, url_prefix='/order')
-app.register_blueprint(oauth_bp, url_prefix='/oauth')
+from app.api.admin import bp as bp_admin
+from app.api.oauth import bp as bp_oauth
+from app.api import bp as bp_api
+app.register_blueprint(bp_admin, url_prefix='/api/admin')
+app.register_blueprint(bp_oauth, url_prefix='/api/oauth')
+app.register_blueprint(bp_api, url_prefix='/api')
 
 engine = create_engine(app.config['MYSQL_ENGINE'])
 engine.execute(app.config['MYSQL_CREATE_DATABASE'])
