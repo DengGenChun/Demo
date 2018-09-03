@@ -112,14 +112,44 @@ def verify_order(order_no):
     return True
 
 
+# @bp.route('/listOrder', methods=['GET'])
+# def list_order():
+#     openid = request.cookies.get("openid")
+#     if not openid:
+#         return utils.ret_err(-1, "ERR_INVALID_OPENID")
+#
+#     order_no = request.args.get('order_no', '')
+#     order = Order.query.filter_by(order_no=order_no, openid=openid).first()
+#     if order is None:
+#         return utils.ret_err(-1, 'order_no is wrong')
+#
+#     if not verify_order(order_no):
+#         return utils.ret_err(-1, order.trade_state_desc)
+#
+#     p = order.product
+#     obj = {
+#         "order_no": order.order_no,
+#         "transaction_id": order.transaction_id,
+#         "title": p.title,
+#         "detail": p.detail,
+#         "price": p.price,
+#         "count": order.p_count,
+#         "price_sum": order.price_sum,
+#         "username": order.username,
+#         "phone": order.phone,
+#         "address": order.address,
+#         "comment": order.comment,
+#     }
+#     return utils.ret_objs(obj)
+
 @bp.route('/listOrder', methods=['GET'])
 def list_order():
-    openid = request.cookies.get("openid")
-    if not openid:
-        return utils.ret_err(-1, "ERR_INVALID_OPENID")
+    # openid = request.cookies.get("openid")
+    # if not openid:
+    #     return utils.ret_err(-1, "ERR_INVALID_OPENID")
 
     order_no = request.args.get('order_no', '')
-    order = Order.query.filter_by(order_no=order_no, openid=openid).first()
+    order = Order.query.filter_by(order_no=order_no).first()
     if order is None:
         return utils.ret_err(-1, 'order_no is wrong')
 
