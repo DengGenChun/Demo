@@ -257,8 +257,7 @@ $(function() {
         console.log("comment: " + comment);
 
         $('body').addClass("loading");
-
-        $.get("/order/createOrder", {
+        $.get("/api/createOrder", {
             "p_id": items[selectedIndex].itemId,
             "p_count": currCount,
             "username": name,
@@ -266,8 +265,8 @@ $(function() {
             "address": address,
             "comment": comment
         }, function(data, status) {
-            if (status == "success") {
-                if (data["code"] == -1) {
+            if (status === "success") {
+                if (data["code"] === -1) {
                     layer.alert(data["msg"]);
                 } else {
                     WXPayRequest(data.result);
@@ -287,12 +286,10 @@ $(function() {
 
         function onBridgeReady() {
             WeixinJSBridge.invoke('getBrandWCPayRequest', result.data, function(res) {
-                console.log(res.err_code +":"+ res.err_desc +":"+ res.err_msg);
-                if (res.err_msg == "get_brand_wcpay_request:ok") {
-                    window.location.href = "/order/orderSuccess?order_no=" + order_no
-                } else {
-                    window.location.href = "/order/orderFail"
-                }
+                // if (res.err_msg == "get_brand_wcpay_request:ok") {
+                //     window.location.href = "/order/orderSuccess?order_no=" + order_no
+                // }
+                window.location.href = "/order_detail?order_no=" + order_no;
             });
         }
 
