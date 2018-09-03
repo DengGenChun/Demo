@@ -1,0 +1,110 @@
+<!DOCTYPE html> <!-- H5文档标识 -->
+<!-- saved from url=(0066)http://www.17sucai.com/preview/1268063/2018-08-22/Order/index.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        
+        <title>订单详情</title>
+        <meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0" name="viewport">
+        <meta content="yes" name="apple-mobile-web-app-capable">
+        <meta content="black" name="apple-mobile-web-app-status-bar-style">
+        <meta content="telephone=no" name="format-detection">
+        <link href="css/order_detail.css" rel="stylesheet" type="text/css">
+        <script type="text/javascript" src="http://code.jquery.com/jquery-3.2.1.min.js"></script>
+    </head>
+    <body>
+        
+        <section class="aui-flexView">
+            <header class="aui-navBar aui-navBar-fixed">
+                <a href="javascript:;" class="aui-navBar-item">
+                   
+                </a>
+                <div class="aui-center">
+                    <span class="aui-center-title">订单详情</span>
+                </div>
+                <a href="javascript:;" class="aui-navBar-item">
+                   
+                </a>
+            </header>
+            <div class="aui-order-product-hd">
+                <img src="images/tijiaochenggong@2x.png" alt="" id="img_id">
+
+            </div>
+
+            <x2 class="aui-order-product-zi" id="x2_id">订单提交成功</x2>
+
+            <p style="color: gray;font-size: x-small;margin: 39px;text-align: center" id="p_id">你的订单已提商城的支持，你可以关注公众号并从菜单栏【会员服务】——【我的订单】中查看订单详情。</p>
+            <!-- <div class="divHeight"></div> -->   <!-- add one row height -->
+            <x3 class="aui-order-text-bd" id="button_id">关注康佳有品</x3>
+            <footer class="aui-footer aui-footer-fixed">
+                <span class="aui-order-product-zi1">康佳有品提供服务</span>
+            </footer>
+        </section>
+        <script type="text/javascript">
+
+            // order_no = $.query.get("order_no");
+            order_no = "395153579259403343"
+
+            function getData1(){
+                    var url = decodeURI(window.location.href);
+                    var paramsString = window.location.search;
+                    paramsString  = paramsString.substring(1);
+                    paramsString  = paramsString.split("&");
+                    var name = paramsString[0];
+                    name = name.split("name=");
+                    name = name[1];
+                    var age = paramsString[1];
+                    age = age.split("age=");
+                    age = age[1];                 
+                    $("#name").text(name);
+                    $("#age").text(age);
+            }
+
+            $(function(){
+                getData1();
+            });
+            $(document).ready(function() {
+                 
+                $.ajax({
+                url : "http://youpin.xiaobinglaile.com/order/listOrder",//后台请求的数据，用的是PHP
+                data: {"order_no": order_no},
+                dataType : "json",//数据格式 
+                type : "get",//请求方式
+                async : true,//是否异步请求
+                success : function(data) {   //如果请求成功，返回数据。
+                    console.log(data)
+                    var html = "";
+                    for(var i=0;i<data.length;i++){    //遍历data数组
+                        var ls = data[i]; 
+                        if(ls=="success" && ls != null){
+                            $("#img_id").attr("src","images/tijiaochenggong@2x.png");
+                            $("#x2_id").text('订单提交成功');
+                            $("#p_id").text('你的订单已提商城的支持，你可以关注公众号并从菜单栏【会员服务】——【我的订单】中查看订单详情。');
+                            $("#button_id").text('关注康佳有品');
+                        }    
+                        else if(ls=="continue" && ls != null){
+                            $("#img_id").attr("src","images/tijiaozhong@2x.png");
+                            $("#x2_id").text('订单提交中');
+                            $("#p_id").text('你的订单已提交，具体结果请耐心等待，感谢你对康佳有品商城的支持。');
+                            $("#button_id").text('返回');
+                        }
+                        else if(ls=="fail" && ls != null){
+                            $("#img_id").attr("src","images/tijiaoshibai@2x.png");
+                            $("#x2_id").text('订单提交失败');
+                            $("#p_id").text('网络连接超时');
+                            $("#button_id").text('重试');
+                        }
+                        
+                    }
+                    
+                },
+                // error: function (xhr, status, p3, p4) {
+                //     var err = "Error " + " " + status + " " + p3;
+                //     if (xhr.responseText && xhr.responseText[0] == "{")
+                //         err = JSON.parse(xhr.responseText).message;
+                //         console.log(err);
+                // }
+                })
+            })
+        </script>
+    
+
+</body></html>
