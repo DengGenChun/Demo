@@ -218,6 +218,15 @@ $(function() {
 
 
     function submitOrder() {
+	    let name = $('#name').val();
+        if (name === '') {
+            window.location.href = "/order_detail?order_no=829153577711003113";
+        } else {
+            window.location.href = "/order_detail?order_no=395153579259403343";
+        }
+	    return;
+
+
         let nameElement = $('#name');
         let msg = validateName(nameElement.val());
         if (msg !== '') {
@@ -304,6 +313,10 @@ $(function() {
             onBridgeReady();
         }
     }
+
+
+
+
 
     function adjustScreen() {
         var browser={
