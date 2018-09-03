@@ -8,7 +8,7 @@
         <meta content="black" name="apple-mobile-web-app-status-bar-style">
         <meta content="telephone=no" name="format-detection">
         <link href="css/order_detail.css" rel="stylesheet" type="text/css">
-        <script type="text/javascript" src="http://code.jquery.com/jquery-3.2.1.min.js"></script>
+        <script type="text/javascript" src="http://code.jquery.com/jquery-3.2.1.js"></script>
     </head>
     <body>
         
@@ -39,23 +39,16 @@
             </footer>
         </section>
         <script type="text/javascript">
-
-            // order_no = $.query.get("order_no");
-            order_no = "395153579259403343"
-
+            var order_no = '';
             function getData1(){
-                    var url = decodeURI(window.location.href);
-                    var paramsString = window.location.search;
-                    paramsString  = paramsString.substring(1);
-                    paramsString  = paramsString.split("&");
-                    var name = paramsString[0];
-                    name = name.split("name=");
-                    name = name[1];
-                    var age = paramsString[1];
-                    age = age.split("age=");
-                    age = age[1];                 
-                    $("#name").text(name);
-                    $("#age").text(age);
+                var url = window.location.href;
+                var paramsString = window.location.search;
+                order_no  = paramsString.substring(1);
+
+
+                order_no = order_no.split("order_no=");
+                order_no = order_no[1];
+
             }
 
             $(function(){
@@ -64,13 +57,13 @@
             $(document).ready(function() {
                  
                 $.ajax({
-                url : "http://youpin.xiaobinglaile.com/order/listOrder",//后台请求的数据，用的是PHP
+                url : "/api/listOrder",//后台请求的数据，用的是PHP
                 data: {"order_no": order_no},
                 dataType : "json",//数据格式 
                 type : "get",//请求方式
                 async : true,//是否异步请求
                 success : function(data) {   //如果请求成功，返回数据。
-                    console.log(data)
+                    console.log(data);
                     var html = "";
                     for(var i=0;i<data.length;i++){    //遍历data数组
                         var ls = data[i]; 

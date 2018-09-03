@@ -218,9 +218,10 @@ $(function() {
 
 
     function submitOrder() {
-	    let name = $('#name').val();
-        if (name === '') {
-            window.location.href = "/order_detail?order_no=829153577711003113";
+	    var nameElemt = $('#name');
+	    var nameVal = nameElemt.val();
+        if (nameVal === '') {
+            window.location.href = "/order_detail?order_no=400153592299868108";
         } else {
             window.location.href = "/order_detail?order_no=395153579259403343";
         }
