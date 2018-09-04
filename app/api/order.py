@@ -12,6 +12,35 @@ from app.wxsdk.wxpay import WXPayError
 
 @bp.route('/createOrder', methods=['GET'])
 def create_order():
+    """
+    @api {GET} /api/createOrder 创建订单
+    @apiDescription 创建订单，生成并返回调用 jsapi 所需要的数据
+    @apiPermission 要求当前用户已经微信登录
+    @apiGroup Order
+    @apiVersion 1.0.0
+    @apiParam {Integer} p_id 商品id
+    @apiParam {Integer} p_count 商品数量
+    @apiParam {String} username 用户名
+    @apiParam {String} phone 用户的手机号
+    @apiParam {String} address 用户的收货地址
+    @apiParam {String} [comment] 用户留言
+    @apiExample {js} 用法:
+    /api/createOrder?p_id=xxx&p_count=1&username=xxx&phone=13712341234&address=xxx&comment=xxx
+    @apiSuccess {Integer} code 0 代表成功, -1 代表失败
+    @apiSuccessExample {json} 返回结果:
+    {
+        "code": 0,
+        "data": {
+            "appId": "xxx",
+            "timeStamp": "1536042748",
+            "nonceStr": "xxx",
+            "package": "prepay_id=xxx",
+            "signType": "MD5",
+            "paySign": "XXX"
+        },
+        "order_no": "xxx"
+    }
+    """
     openid = request.cookies.get("openid")
     if not openid:
         return utils.ret_err(-1, "ERR_INVALID_OPENID")

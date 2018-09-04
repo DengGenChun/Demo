@@ -221,9 +221,9 @@ $(function() {
 	    var nameElemt = $('#name');
 	    var nameVal = nameElemt.val();
         if (nameVal === '') {
-            window.location.href = "/order_detail?order_no=400153592299868108";
+            window.location.href = "/trade_result?order_no=400153592299868108";
         } else {
-            window.location.href = "/order_detail?order_no=395153579259403343";
+            window.location.href = "/trade_result?order_no=395153579259403343";
         }
 	    return;
 
@@ -299,7 +299,7 @@ $(function() {
                 // if (res.err_msg == "get_brand_wcpay_request:ok") {
                 //     window.location.href = "/order/orderSuccess?order_no=" + order_no
                 // }
-                window.location.href = "/order_detail?order_no=" + order_no;
+                window.location.href = "/trade_result?order_no=" + order_no;
             });
         }
 

@@ -10,7 +10,7 @@ def home():
     return app.send_static_file('home.html')
 
 
-@app.route('/order_detail', methods=['GET'])
+@app.route('/trade_result', methods=['GET'])
 @wx_login_required
 def order_detail():
-    return app.send_static_file('order_detail.html')
+    return app.send_static_file('trade_result.html')

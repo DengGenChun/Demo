@@ -581,7 +581,7 @@ a {
     line-height: 70px;
     text-align: center;
     /*position: relative;
-    display: table-cell;
+          
     vertical-align:middle;*/
 }
 
@@ -608,7 +608,8 @@ a {
     font-weight: 400;
     font-size: 1.5rem;
     color: #333;
-    margin-top: 8rem;
+    margin-top: 6.5rem;
+    display: block;
     width: auto;
     text-align:center;
     overflow: hidden;
@@ -617,18 +618,26 @@ a {
     word-wrap: normal;
     word-wrap: break-word;
     word-break: break-all;
-    padding-bottom: 0.4rem;
+    
 }
 
 .aui-order-product-zi1 {
-    display: inline-block;
+    display: block;
     font-size: 1rem;
     color: #252529;
     border-radius: 20px;
-    padding-left: 8rem;
+    padding-left: 6.8rem;
+    
     /*padding: 0.35rem 7.5rem;*/
 }
 
+.aui-order-product-zi2 {
+    display: block;
+    color: gray;
+    font-size: x-small;
+    margin: 39px;
+    text-align: center
+}
 
 .aui-order-text {
     position: relative;
@@ -655,7 +664,7 @@ a {
     display: inline-block;
     font-size: 1.5rem;
     position:relative;
-    margin-top: 8%;
+    /*margin-top: 0.2%;*/
     margin-left: 23%;
     margin-right: 23%;
     background-color: #19ad19;
