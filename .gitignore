@@ -11,3 +11,5 @@ package.json
 package-lock.json
 gulpfile.js
 apidoc.json
+
+/migrations
