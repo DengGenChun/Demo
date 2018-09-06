@@ -2,7 +2,8 @@
 	margin: 0;
 	padding: 0;
 	border: 0;
-	box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	        box-sizing: border-box;
 }
 body, html {
 	font-family: Helvetica Neue,Helvetica,microsoft yahei,arial,STHeiTi,sans-serif;

@@ -27,6 +27,8 @@ def create_order():
     @apiExample {js} 用法:
     /api/createOrder?p_id=xxx&p_count=1&username=xxx&phone=13712341234&address=xxx&comment=xxx
     @apiSuccess {Integer} code 0 代表成功, -1 代表失败
+    @apiSuccess {Json} data 调用jsapi所需要的数据
+    @apiSuccess {String} order_no 订单号
     @apiSuccessExample {json} 返回结果:
     {
         "code": 0,
@@ -141,44 +143,14 @@ def verify_order(order_no):
     return True
 
 
-# @bp.route('/listOrder', methods=['GET'])
-# def list_order():
-#     openid = request.cookies.get("openid")
-#     if not openid:
-#         return utils.ret_err(-1, "ERR_INVALID_OPENID")
-#
-#     order_no = request.args.get('order_no', '')
-#     order = Order.query.filter_by(order_no=order_no, openid=openid).first()
-#     if order is None:
-#         return utils.ret_err(-1, 'order_no is wrong')
-#
-#     if not verify_order(order_no):
-#         return utils.ret_err(-1, order.trade_state_desc)
-#
-#     p = order.product
-#     obj = {
-#         "order_no": order.order_no,
-#         "transaction_id": order.transaction_id,
-#         "title": p.title,
-#         "detail": p.detail,
-#         "price": p.price,
-#         "count": order.p_count,
-#         "price_sum": order.price_sum,
-#         "username": order.username,
-#         "phone": order.phone,
-#         "address": order.address,
-#         "comment": order.comment,
-#     }
-#     return utils.ret_objs(obj)
-
 @bp.route('/listOrder', methods=['GET'])
 def list_order():
-    # openid = request.cookies.get("openid")
-    # if not openid:
-    #     return utils.ret_err(-1, "ERR_INVALID_OPENID")
+    openid = request.cookies.get("openid")
+    if not openid:
+        return utils.ret_err(-1, "ERR_INVALID_OPENID")
 
     order_no = request.args.get('order_no', '')
-    order = Order.query.filter_by(order_no=order_no).first()
+    order = Order.query.filter_by(order_no=order_no, openid=openid).first()
     if order is None:
         return utils.ret_err(-1, 'order_no is wrong')
 

@@ -4,3 +4,10 @@ docs/
 instance/
 logger.log
 run.sh
+
+**/scss/
+node_modules/
+package.json
+package-lock.json
+gulpfile.js
+apidoc.json

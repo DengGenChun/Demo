@@ -218,15 +218,6 @@ $(function() {
 
 
     function submitOrder() {
-	    var nameElemt = $('#name');
-	    var nameVal = nameElemt.val();
-        if (nameVal === '') {
-            window.location.href = "/trade_result?order_no=400153592299868108";
-        } else {
-            window.location.href = "/trade_result?order_no=395153579259403343";
-        }
-	    return;
-
 
         let nameElement = $('#name');
         let msg = validateName(nameElement.val());
