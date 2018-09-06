@@ -597,6 +597,29 @@ a {
     -webkit-transform: translate3d(-50%,-50%,0);
 }
 
+.aui-trade-product {
+    margin-left: 38%;
+    width: 70px;
+    height: 70px;
+    line-height: 70px;
+    text-align: center;
+    /*position: relative;
+          
+    vertical-align:middle;*/
+}
+
+.aui-trade-product img {
+    display: block;
+    position: absolute;
+    /*top: 14%;*/
+    margin-top: 3rem;
+    left: 50%;
+    width: 100px;
+    height: 100px;
+    transform: translate3d(-50%,-50%,0);
+    -webkit-transform: translate3d(-50%,-50%,0);
+}
+
 .aui-order-product-bd {
     -webkit-box-flex: 1;
     -webkit-flex: 1;
@@ -606,7 +629,7 @@ a {
 
 .aui-order-product-zi {
     font-weight: 400;
-    font-size: 1.5rem;
+    font-size: 14pt;
     color: #333;
     margin-top: 6.5rem;
     display: block;
@@ -618,6 +641,17 @@ a {
     word-wrap: normal;
     word-wrap: break-word;
     word-break: break-all;
+    
+}
+
+.aui-trade-product-zi1 {
+    display: block;
+    color: gray;
+    font-size: 13pt;
+    font-weight: bolder;
+    margin: 19px 56px;
+    text-align: center;
+    margin-top: 50px;
     
 }
 
@@ -634,11 +668,18 @@ a {
 .aui-order-product-zi2 {
     display: block;
     color: gray;
-    font-size: x-small;
-    margin: 39px;
+    font-size: 9pt;
+    margin: 15px 23px;
     text-align: center
 }
 
+.aui-trade-product-zi2 {
+    display: block;
+    color: gray;
+    font-size: 12pt;
+    margin: 33px 23px;
+    text-align: center
+}
 .aui-order-text {
     position: relative;
     display: -webkit-box;
@@ -662,9 +703,9 @@ a {
 .aui-order-text-bd {
     font-style: normal;
     display: inline-block;
-    font-size: 1.5rem;
+    font-size: 13.5pt;
     position:relative;
-    /*margin-top: 0.2%;*/
+    margin-top: 3%;
     margin-left: 23%;
     margin-right: 23%;
     background-color: #19ad19;
@@ -672,7 +713,7 @@ a {
     text-align:center;
     border: 1px solid #a9a9a9;
     border-radius: 20px;
-    padding: 0.2rem 0.5rem;
+    padding: 0.5rem 0.5rem;
 
 }
 

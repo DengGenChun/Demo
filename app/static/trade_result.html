@@ -24,6 +24,12 @@
             <p class="aui-order-product-zi2" id="p_id"></p>
             <!-- <div class="divHeight"></div> -->   <!-- add one row height -->
             <x3 class="aui-order-text-bd" id="button_id"></x3>
+
+            <div class="aui-trade-product" id="img1_id">
+                <img src="" alt="">
+            </div>
+
+            <div class="aui-trade-product-zi2" id="x3_id"></div>
             <footer class="aui-footer aui-footer-fixed">
                 <div class="aui-order-product-zi1">康佳有品提供服务</div>
             </footer>
@@ -35,8 +41,6 @@
                 var url = window.location.href;
                 var paramsString = window.location.search;
                 order_no  = paramsString.substring(1);
-
-
                 order_no = order_no.split("order_no=");
                 order_no = order_no[1];
                 
@@ -45,7 +49,7 @@
             $(function(){
                 getData1();
             });
-            $(document).ready(function() {
+            $(document).ready(function() { 
                  
                 $.ajax({
                 url : "/api/listOrder",//后台请求的数据，用的是PHP
@@ -54,14 +58,16 @@
                 type : "get",//请求方式
                 async : true,//是否异步请求
                 success : function(data) {   //如果请求成功，返回数据。
-                    $("#button_id").show();
+                    
 
                     if (data["code"] == 0) {
                         $("#img_id").attr("src","images/tijiaochenggong@2x.png");
                         $("#x2_id").text('订单提交成功');
                         $("#p_id").text('你的订单已提商城的支持，你可以关注公众号并从菜单栏【会员服务】——【我的订单】中查看订单详情。');
-                        $("#button_id").text('关注康佳有品');
+                        $("#img1_id").attr("src","images/youpin.png");
+                        $("#x3_id").text('（长按识别）');
                     } else {
+                    	$("#button_id").show();
                         $("#img_id").attr("src","images/tijiaoshibai@2x.png");
                         $("#x2_id").text('订单提交失败');
                         $("#p_id").text('网络连接超时');
@@ -70,28 +76,7 @@
                             history.go(-1);
                         });
                     }
-                    // for(var i=0;i<data.length;i++){    //遍历data数组
-                    //     var ls = data[i];
-                    //     if(ls=="success" && ls != null){
-                    //         $("#img_id").attr("src","images/tijiaochenggong@2x.png");
-                    //         $("#x2_id").text('订单提交成功');
-                    //         $("#p_id").text('你的订单已提商城的支持，你可以关注公众号并从菜单栏【会员服务】——【我的订单】中查看订单详情。');
-                    //         $("#button_id").text('关注康佳有品');
-                    //     }
-                    //     else if(ls=="continue" && ls != null){
-                    //         $("#img_id").attr("src","images/tijiaozhong@2x.png");
-                    //         $("#x2_id").text('订单提交中');
-                    //         $("#p_id").text('你的订单已提交，具体结果请耐心等待，感谢你对康佳有品商城的支持。');
-                    //         $("#button_id").text('返回');
-                    //     }
-                    //     else if(ls=="fail" && ls != null){
-                    //         $("#img_id").attr("src","images/tijiaoshibai@2x.png");
-                    //         $("#x2_id").text('订单提交失败');
-                    //         $("#p_id").text('网络连接超时');
-                    //         $("#button_id").text('重试');
-                    //     }
-                    //
-                    // }
+                    
                     
                 },
                 // error: function (xhr, status, p3, p4) {
