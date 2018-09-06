@@ -20,6 +20,10 @@ def timestamp():
     return int(round(time.time() * 1000))
 
 
+def str2timestamp(s):
+    return int(time.mktime(time.strptime(s, "%Y%m%d%H%M%S")))
+
+
 def md5(string):
     m = hashlib.md5()
     m.update(string.encode('utf-8'))

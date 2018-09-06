@@ -22,6 +22,7 @@ class Order(db.Model):
     trade_state_desc = db.Column(db.String(256), nullable=False, default='')
     notify_state = db.Column(db.String(16), nullable=False, default='UNCHECKED')
     create_time = db.Column(db.BigInteger, nullable=False)
+    pay_time = db.Column(db.BigInteger, nullable=False)
 
     def __init__(self, p_id, p_count, username, phone, address, comment=''):
         self.p_id = p_id
@@ -32,6 +33,7 @@ class Order(db.Model):
         self.comment = comment
         self.order_no = utils.random_id()
         self.create_time = utils.timestamp()
+        self.pay_time = 0
 
     def __repr__(self):
         return '<Order order_no=%d, p_count=%d, price_sum=%f, username=%s, phone=%s, create_time=%s>' \
@@ -52,7 +54,8 @@ class Order(db.Model):
             "trade_state": self.trade_state,
             "trade_state_desc": self.trade_state_desc,
             "notify_state": self.notify_state,
-            "create_time": self.create_time
+            "create_time": self.create_time,
+            "pay_time": self.pay_time
         }
 
 
@@ -65,16 +68,18 @@ class Product(db.Model):
     inventory = db.Column(db.Integer, nullable=False, default=0)
     title = db.Column(db.String(64), default='')
     detail = db.Column(db.String(128), default='')
+    color = db.Column(db.String(16), default='')
     modify_time = db.Column(db.BigInteger, nullable=False)
     create_time = db.Column(db.BigInteger, nullable=False)
     orders = db.relationship('Order', backref='product')
 
-    def __init__(self, name, price, inventory, title='', detail=''):
+    def __init__(self, name, price, inventory, title='', detail='', color=''):
         self.name = name
         self.price = price
         self.inventory = inventory
         self.title = title
         self.detail = detail
+        self.color = color
         self.p_id = utils.random_id()
         timestamp = utils.timestamp()
         self.create_time = timestamp
@@ -91,6 +96,7 @@ class Product(db.Model):
             'inventory': self.inventory,
             'title': self.title,
             'detail': self.detail,
+            'color': self.color,
             'modify_time': self.modify_time,
             'create_time': self.create_time
         }

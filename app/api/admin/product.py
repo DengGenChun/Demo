@@ -26,6 +26,7 @@ def add_product():
     product = Product(name, price, inventory)
     product.title = request.args.get('title', '')
     product.detail = request.args.get('detail', '')
+    product.color = request.args.get('color', '')
     db.session.add(product)
     db.session.commit()
     return utils.ret_msg_objs('Suceess', product)

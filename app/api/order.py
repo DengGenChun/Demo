@@ -51,6 +51,9 @@ def create_order():
     product = Product.query.filter_by(p_id=p_id).first()
     if product is None:
         return utils.ret_err(-1, 'p_id is wrong')
+    if product.inventory < 1:
+        return utils.ret_err(-1, '库存不足')
+
     p_count = request.args.get('p_count', 0, int)
     if p_count <= 0:
         return utils.ret_err(-1, 'p_count must > 0')
@@ -134,12 +137,14 @@ def verify_order(order_no):
 
     order.trade_state = data["trade_state"]
     order.trade_state_desc = data["trade_state_desc"]
-    if "transaction_id" in data:
-        order.transaction_id = data["transaction_id"]
-    db.session.commit()
     if order.trade_state != "SUCCESS":
+        db.session.commit()
         return False
 
+    order.transaction_id = data["transaction_id"]
+    order.pay_time = utils.str2timestamp(data["time_end"])
+    order.product.inventory -= 1
+    db.session.commit()
     return True
 
 
@@ -196,6 +201,7 @@ def list_all_order():
             "transaction_id": order.transaction_id,
             "title": p.title,
             "detail": p.detail,
+            "color": p.color,
             "price": p.price,
             "count": order.p_count,
             "price_sum": order.price_sum,
