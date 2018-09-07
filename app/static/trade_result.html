@@ -42,8 +42,7 @@
                 var paramsString = window.location.search;
                 order_no  = paramsString.substring(1);
                 order_no = order_no.split("order_no=");
-                order_no = order_no[1];
-                
+                order_no = order_no[1];   
             }
 
             $(function(){
@@ -61,12 +60,14 @@
                     
 
                     if (data["code"] == 0) {
+                        $("#img1_id").show();
                         $("#img_id").attr("src","images/tijiaochenggong@2x.png");
                         $("#x2_id").text('订单提交成功');
                         $("#p_id").text('你的订单已提商城的支持，你可以关注公众号并从菜单栏【会员服务】——【我的订单】中查看订单详情。');
                         $("#img1_id").attr("src","images/youpin.png");
                         $("#x3_id").text('（长按识别）');
                     } else {
+                        $("#img1_id").hide();
                     	$("#button_id").show();
                         $("#img_id").attr("src","images/tijiaoshibai@2x.png");
                         $("#x2_id").text('订单提交失败');
