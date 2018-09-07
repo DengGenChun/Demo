@@ -21,7 +21,7 @@ def timestamp():
 
 
 def str2timestamp(s):
-    return int(time.mktime(time.strptime(s, "%Y%m%d%H%M%S")))
+    return int(time.mktime(time.strptime(s, "%Y%m%d%H%M%S")) * 1000)
 
 
 def md5(string):
