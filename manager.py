@@ -4,7 +4,8 @@ from app import app, db
 from flask_script import Manager
 from flask_migrate import Migrate, MigrateCommand
 
-from app.models import Product, Order
+from app.models import Product
+from app.models import Order
 
 
 migrate = Migrate(app, db)

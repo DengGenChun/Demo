@@ -152,7 +152,9 @@ def verify_order(order_no):
 def list_order():
     openid = request.cookies.get("openid")
     if not openid:
-        return utils.ret_err(-1, "ERR_INVALID_OPENID")
+        openid = request.args.get("openid")
+        if not openid:
+            return utils.ret_err(-1, "ERR_INVALID_OPENID")
 
     order_no = request.args.get('order_no', '')
     order = Order.query.filter_by(order_no=order_no, openid=openid).first()
@@ -166,15 +168,19 @@ def list_order():
     obj = {
         "order_no": order.order_no,
         "transaction_id": order.transaction_id,
-        "title": p.title,
-        "detail": p.detail,
-        "price": p.price,
-        "count": order.p_count,
+        "p_title": p.title,
+        "p_detail": p.detail,
+        "p_price": p.price,
+        "p_color": p.color,
+        "p_icon": p.icon,
+        "p_count": order.p_count,
         "price_sum": order.price_sum,
         "username": order.username,
         "phone": order.phone,
         "address": order.address,
         "comment": order.comment,
+        "order_time": order.create_time,
+        "pay_time": order.pay_time
     }
     return utils.ret_objs(obj)
 
@@ -220,7 +226,7 @@ def order_success():
     order_no = request.args.get('order_no', '')
     order = Order.query.filter_by(order_no=order_no).first()
     if order is None:
-        return utils.ret_err(-1, 'order_no is worng')
+        return utils.ret_err(-1, 'order_no is wrong')
 
     if order.trade_state != "SUCCESS":
         if not verify_order(order_no):

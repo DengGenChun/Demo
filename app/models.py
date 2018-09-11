@@ -69,6 +69,7 @@ class Product(db.Model):
     title = db.Column(db.String(64), default='')
     detail = db.Column(db.String(128), default='')
     color = db.Column(db.String(16), default='')
+    icon = db.Column(db.String(128), default='')
     modify_time = db.Column(db.BigInteger, nullable=False)
     create_time = db.Column(db.BigInteger, nullable=False)
     orders = db.relationship('Order', backref='product')
@@ -97,6 +98,7 @@ class Product(db.Model):
             'title': self.title,
             'detail': self.detail,
             'color': self.color,
+            'icon': self.icon,
             'modify_time': self.modify_time,
             'create_time': self.create_time
         }

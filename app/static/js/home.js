@@ -287,9 +287,6 @@ $(function() {
 
         function onBridgeReady() {
             WeixinJSBridge.invoke('getBrandWCPayRequest', result.data, function(res) {
-                // if (res.err_msg == "get_brand_wcpay_request:ok") {
-                //     window.location.href = "/order/orderSuccess?order_no=" + order_no
-                // }
                 window.location.href = "/trade_result?order_no=" + order_no;
             });
         }

@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width">
+
+	<link rel="stylesheet" type="text/css" href="css/order_detail.css">
+	<script type="text/javascript" src="js/mobile.js"></script>
+	<script type="text/javascript" src="http://code.jquery.com/jquery-3.2.1.min.js"></script>
+	<script type="text/javascript" src="js/layer/layer.js"></script>
+	<script type="text/javascript" src="js/order_detail.js"></script>
+
+	<title>订单详情</title>
+</head>
+<body class="col">
+	<div class="content">
+		<div class="first">
+			<div class="row">
+				<img class="icon" src="images/car@2x.png">
+
+				<div class="col">
+					<div class="title" for="signTitle"></div>
+					<div class="subtitle" for=signTime></div>
+				</div>
+
+				<div class="placeholder"></div>
+
+				<div class="col">
+					<div class="placeholder"></div>
+					<img class="icon" src="images/arrow-right@2x.png">
+					<div class="placeholder"></div>
+				</div>
+			</div>
+
+			<div class="row">
+				<img class="icon" src="images/map@2x.png">
+
+				<div class="col">
+					<div class="row title">
+						<div for="username"></div>
+						<div class="flex-y-center" for="phone"></div>
+					</div>
+					<div class="subtitle" for="address"></div>
+				</div>
+			</div>
+		</div>
+
+		<div style="height: 20px;"></div>
+
+		<div class="second">
+			<div class="row header">
+				<img class="icon" src="images/dianpu@2x.png">
+				<div class="title">康佳有品</div>
+				<div class="placeholder"></div>
+				<div class="subtitle" for="isSign"></div>
+			</div>
+
+			<div class="line"></div>
+
+			<div class="row detail">
+				<div>
+					<img class="pic" for="icon" src="">
+				</div>
+
+				<div class="col">
+					<div class="title" for="productTitle"></div>
+
+					<div class="row subtitle">
+						<span>数量：</span><div class="count flex-y-center" for="orderCount"></div>&nbsp;&nbsp;&nbsp;
+						<span>颜色：</span><div class="color" for="productColor"></div>
+					</div>
+					<div class="placeholder"></div>
+
+					<div class="title price" for="priceSum"></div>
+				</div>
+			</div>
+		</div>
+
+		<div style="height: 20px;"></div>
+
+		<div class="third">
+			<div class="col">
+				<div class="row section">
+					<div class="title">买家留言：</div>
+					<div class="subtitle flex-y-center" for="comment"></div>
+				</div>
+				<div class="line"></div>
+				<div class="section">
+					<div class="row">
+						<div class="title">订单编号：</div>
+						<div class="subtitle flex-y-center" for="orderNo"></div>
+					</div>
+					<div class="row">
+						<div class="title">下单时间：</div>
+						<div class="subtitle flex-y-center" for="orderTime"></div>
+					</div>
+				</div>
+				<div class="line"></div>
+				<div class="section">
+					<div class="row">
+						<div class="title">支付方式：</div>
+						<div class="subtitle">微信支付</div>
+					</div>
+					<div class="row">
+						<div class="title">支付时间：</div>
+						<div class="subtitle flex-y-center" for="payTime"></div>
+					</div>
+					<div class="row">
+						<div class="title">配送方式：</div>
+						<div class="subtitle">顺丰速运</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div style="height: 20px;"></div>
+
+		<div class="fourth">
+			<div class="col">
+				<div class="section">
+					<div class="row">
+						<div class="title">商品总数</div>
+						<div class="placeholder"></div>
+						<div class="subtitle flex-y-center" for="orderCount"></div>
+						<div class="subtitle">件</div>
+					</div>
+					<div class="row">
+						<div class="title">商品总额</div>
+						<div class="placeholder"></div>
+						<div class="subtitle" for="priceSum"></div>
+					</div>
+					<div class="row">
+						<div class="title">运费</div>
+						<div class="placeholder"></div>
+						<div class="subtitle">免运费</div>
+					</div>
+				</div>
+				<div class="line"></div>
+				<div class="section">
+					<div class="row">
+						<div class="subtitle">实付款：</div>
+						<div class="price" for="priceSum"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="bottom"></div>
+	</div>
+
+	<div class="footer">
+		<div id="reorder-button">再来一单</div>
+	</div>
+
+	<div class="modal"><!-- Place at bottom of page --></div>
+</body>
+</html>
