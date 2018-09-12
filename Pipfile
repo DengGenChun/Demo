@@ -8,6 +8,8 @@ flask = "*"
 flask-sqlalchemy = "*"
 pymysql = "*"
 requests = "*"
+flask-script = "*"
+flask-migrate = "*"
 
 [dev-packages]
 

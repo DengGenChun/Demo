@@ -1,0 +1,147 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: #F6F6F6;
+}
+
+img {
+  border: 0;
+  outline: 0;
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  align-items: stretch;
+}
+
+.col {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  align-items: stretch;
+}
+
+.title {
+  color: #232323;
+  font-weight: bold;
+}
+
+.subtitle {
+  color: #333333;
+}
+
+.line {
+  height: 1px;
+  background-color: #E5E5E5;
+}
+
+.divide {
+  height: 10px;
+  background-color: #F6F6F6;
+}
+
+.content {
+  background-color: #F6F6F6;
+}
+
+.placeholder {
+  flex: 1;
+}
+
+.flex-y-center {
+  align-self: center;
+}
+
+.order {
+  background: #FFF;
+}
+.order .header {
+  padding: 10px 13px;
+}
+.order .header .icon {
+  width: 0.5333333333rem;
+  height: 0.5333333333rem;
+}
+.order .header .subtitle {
+  font-size: 12px;
+}
+.order .row:nth-child(2) {
+  background: #FAFAFA;
+  padding: 10px 13px 15px;
+}
+.order .row:nth-child(2) .pic {
+  width: 1.3866666667rem;
+  height: 1.3866666667rem;
+}
+.order .row:nth-child(2) .title {
+  padding-left: 10px;
+  font-weight: normal;
+  font-size: 12px;
+}
+.order .row:nth-child(3) {
+  justify-content: flex-end;
+  padding: 10px 10px;
+}
+.order .row:nth-child(3) div:nth-child(1), .order .row:nth-child(3) div:nth-child(2) {
+  align-self: center;
+  font-weight: normal;
+  font-size: 10px;
+}
+.order .row:nth-child(3) div:nth-child(3) {
+  font-size: 13px;
+}
+.order .row:nth-child(3) div + div {
+  padding-left: 5px;
+}
+.order .row:nth-child(5) {
+  justify-content: flex-end;
+  padding: 10px 15px;
+}
+.order .row:nth-child(5) .purchase-btn {
+  width: 1.6533333333rem;
+  height: 0.5866666667rem;
+  color: #F44336;
+  cursor: pointer;
+  border: 1px solid #F44336;
+  border-radius: 16%/50%;
+  font-size: 12px;
+  text-align: center;
+  line-height: 0.5866666667rem;
+}
+
+.error-tip {
+  position: fixed;
+  width: 100%;
+  text-align: center;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 16px;
+  display: none;
+}
+
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.8) url("/images/loading.gif") 50% 50% no-repeat;
+}
+
+body.loading {
+  overflow: hidden;
+}
+
+body.loading .modal {
+  display: block;
+}

@@ -15,8 +15,21 @@ $(function() {
 	let orderTime = 0;
 	let payTime = 0;
 
-
+	parseUrl();
 	load();
+
+
+	function parseUrl() {
+		let args = {};
+		let url = window.location.search.substring(1);
+		let kvs = url.split("&");
+		for (let i = 0; i < kvs.length; i++) {
+			let kv = kvs[i].split("=");
+			args[kv[0]] = kv[1];
+			console.log(kv);
+		}
+		orderNo = args["order_no"];
+	}
 
 	function load() {
 		loading();
@@ -30,7 +43,6 @@ $(function() {
 			.always(function() {
 				cancelLoading();
 			});
-
 	}
 
 	function loadOrder() {
@@ -40,8 +52,7 @@ $(function() {
 			type: 'GET',
 			dataType: 'json',
 			data: {
-				"order_no": "829153577711003113",
-				"openid": "obU8M1Gxj7GmyS2IQTQOr6Iz3ZEs",
+				"order_no": orderNo,
 			},
 			success: function(data) {
 				if (data["code"] == -1) {
@@ -110,8 +121,10 @@ $(function() {
 		if (orderTime > 0) {
 			$("div[for='orderTime']").text(formatDate(new Date(orderTime), "%Y-%M-%d %H:%m:%s"));
 		}
+		console.log(res);
 		if (payTime > 0) {
 			$("div[for='payTime']").text(formatDate(new Date(payTime), "%Y-%M-%d %H:%m:%s"));
+			console.log(formatDate(new Date(payTime), "%Y-%M-%d %H:%m:%s"));
 		}
 	}
 
