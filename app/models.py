@@ -14,7 +14,7 @@ class Order(db.Model):
     username = db.Column(db.String(16), nullable=False)
     phone = db.Column(db.String(16), nullable=False)
     address = db.Column(db.String(128), nullable=False)
-    comment = db.Column(db.String(128))
+    comment = db.Column(db.String(128), default='')
     openid = db.Column(db.String(128), nullable=False)
     transaction_id = db.Column(db.String(32), nullable=False, default='')
     trade_type = db.Column(db.String(16), nullable=False)
@@ -23,6 +23,10 @@ class Order(db.Model):
     notify_state = db.Column(db.String(16), nullable=False, default='UNCHECKED')
     create_time = db.Column(db.BigInteger, nullable=False)
     pay_time = db.Column(db.BigInteger, nullable=False)
+    track_no = db.Column(db.String(32), default='')
+    track_state = db.Column(db.String(128), default='')
+    is_sign = db.Column(db.String(8), default='NO')
+    sign_time = db.Column(db.BigInteger, nullable=False)
 
     def __init__(self, p_id, p_count, username, phone, address, comment=''):
         self.p_id = p_id
@@ -34,6 +38,7 @@ class Order(db.Model):
         self.order_no = utils.random_id()
         self.create_time = utils.timestamp()
         self.pay_time = 0
+        self.sign_time = 0
 
     def __repr__(self):
         return '<Order order_no=%d, p_count=%d, price_sum=%f, username=%s, phone=%s, create_time=%s>' \
@@ -55,7 +60,11 @@ class Order(db.Model):
             "trade_state_desc": self.trade_state_desc,
             "notify_state": self.notify_state,
             "create_time": self.create_time,
-            "pay_time": self.pay_time
+            "pay_time": self.pay_time,
+            "track_no": self.track_no,
+            "track_state": self.track_state,
+            "is_sign": self.is_sign,
+            "sign_time": self.sign_time
         }
 
 
