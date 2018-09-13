@@ -5,23 +5,33 @@ from app import utils
 from app import app
 import xml.etree.ElementTree as ET
 import requests
+from flask import request
 import json
 import hashlib
 import base64
 
 @bp.route('/sfquery', methods=['GET'])
 def sf_query():
-    filePath = './callExpressRequest/5.route_queryByMailNo.txt'  # 路由查询-通过运单号
-    # 打开相应请求报文txt文件
+    logi_no = request.args.get("logi_no")
+    print(logi_no)
+    filePath = './app/api/callExpressRequest/5.route_queryByMailNo.txt'  # 路由查询-通过运单号
+    fdata = ""
+    with open(filePath, "r", encoding="utf-8") as f:
+        for line in f.readlines():
+            if (line.find('tracking_number') == 0):
+                line = 'tracking_number=\'%s\'' % (str(logi_no),) + '/>' + '\n'
+            fdata += line
+    with open(filePath, "w", encoding="utf-8") as f:
+        f.write(fdata)
     file = open(filePath, 'r', encoding='utf8')
     reqXml = file.read()
     # 关闭打开的文件
     file.close()
     reqURL = 'https://bsp-oisp.sf-express.com/bsp-oisp/sfexpressService'
-    clientCode = app.config['clientCode']
-    checkword = app.config['checkword']  # 此处替换为您在丰桥平台获取的校验码
+    clientCode = app.config['CLIENTCODE']
+    checkword = app.config['CHECKWORD']  # 此处替换为您在丰桥平台获取的校验码
     myReqXml = reqXml.replace('SLKJ2019', clientCode)
-    respXml = httpClient.callSfExpressServiceByCSIM(reqURL, myReqXml, clientCode, checkword)
+    respXml = callSfExpressServiceByCSIM(reqURL, myReqXml, clientCode, checkword)
     if respXml != '':
         tree = ET.fromstring(respXml)
         ary = []
@@ -30,6 +40,8 @@ def sf_query():
             ary.append(r)
         sfq = utils.ret_msg(ary)
         return sfq
+    else:
+        return 0
 
 def callSfExpressServiceByCSIM(reqURL, myReqXml, clientCode, checkword):
     if reqURL == '':
