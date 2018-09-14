@@ -9,11 +9,14 @@ class Order(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     order_no = db.Column(db.BigInteger, nullable=False, unique=True, index=True)
     p_id = db.Column(db.BigInteger, db.ForeignKey('t_product.p_id'), nullable=False)
+    promotion_path = db.Column(db.String(64), default='')
     p_count = db.Column(db.Integer, nullable=False)
     price_sum = db.Column(db.Float, nullable=False)
     username = db.Column(db.String(16), nullable=False)
     phone = db.Column(db.String(16), nullable=False)
     address = db.Column(db.String(128), nullable=False)
+    raw_address = db.Column(db.String(128), nullable=False)
+    record_address = db.Column(db.String(8), default="NO")
     comment = db.Column(db.String(128), default='')
     openid = db.Column(db.String(128), nullable=False)
     transaction_id = db.Column(db.String(32), nullable=False, default='')
@@ -24,16 +27,18 @@ class Order(db.Model):
     create_time = db.Column(db.BigInteger, nullable=False)
     pay_time = db.Column(db.BigInteger, nullable=False)
     track_no = db.Column(db.String(32), default='')
-    track_state = db.Column(db.String(128), default='')
+    track_state = db.Column(db.String(128), default='等待商家发货')
     is_sign = db.Column(db.String(8), default='NO')
     sign_time = db.Column(db.BigInteger, nullable=False)
+    postcode = db.Column(db.String(8), default='')
 
-    def __init__(self, p_id, p_count, username, phone, address, comment=''):
+    def __init__(self, p_id, p_count, username, phone, address, raw_address, comment=''):
         self.p_id = p_id
         self.p_count = p_count
         self.username = username
         self.phone = phone
         self.address = address
+        self.raw_address = raw_address
         self.comment = comment
         self.order_no = utils.random_id()
         self.create_time = utils.timestamp()
@@ -48,11 +53,15 @@ class Order(db.Model):
         return {
             "order_no": str(self.order_no),
             "p_id": str(self.p_id),
+            "transaction_id": self.transaction_id,
+            "promotion_path": self.promotion_path,
             "p_count": self.p_count,
             "price_sum": self.price_sum,
             "username": self.username,
             "phone": self.phone,
             "address": self.address,
+            "raw_address": self.raw_address,
+            "record_address": self.record_address,
             "comment": self.comment,
             "openid": self.openid,
             "trade_type": self.trade_type,
@@ -64,7 +73,8 @@ class Order(db.Model):
             "track_no": self.track_no,
             "track_state": self.track_state,
             "is_sign": self.is_sign,
-            "sign_time": self.sign_time
+            "sign_time": self.sign_time,
+            "postcode": self.postcode
         }
 
 
@@ -75,6 +85,7 @@ class Product(db.Model):
     name = db.Column(db.String(32), nullable=False)
     price = db.Column(db.Float, nullable=False)
     inventory = db.Column(db.Integer, nullable=False, default=0)
+    sale_count = db.Column(db.Integer, nullable=False, default=0)
     title = db.Column(db.String(64), default='')
     detail = db.Column(db.String(128), default='')
     color = db.Column(db.String(16), default='')
@@ -104,6 +115,7 @@ class Product(db.Model):
             'name': self.name,
             'price': self.price,
             'inventory': self.inventory,
+            "sale_count": self.sale_count,
             'title': self.title,
             'detail': self.detail,
             'color': self.color,

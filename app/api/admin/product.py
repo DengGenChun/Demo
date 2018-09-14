@@ -27,6 +27,7 @@ def add_product():
     product.title = request.args.get('title', '')
     product.detail = request.args.get('detail', '')
     product.color = request.args.get('color', '')
+    product.icon = request.args.get('icon', '')
     db.session.add(product)
     db.session.commit()
     return utils.ret_msg_objs('Suceess', product)
@@ -59,7 +60,7 @@ def update_product():
     name = request.args.get('name', '')
     if name != '':
         params["name"] = name
-    price = request.args.get('price', 0, int)
+    price = request.args.get('price', 0, float)
     if price > 0:
         params["price"] = price
     inventory = request.args.get('inventory', 0, int)
@@ -71,6 +72,15 @@ def update_product():
     detail = request.args.get('detail')
     if detail is not None:
         params["detail"] = detail
+    sale_count = request.args.get('sale_count')
+    if sale_count is not None:
+        params["sale_count"] = sale_count
+    color = request.args.get('color')
+    if color is not None:
+        params["color"] = color
+    icon = request.args.get('icon')
+    if icon is not None:
+        params["icon"] = icon
 
     if bool(params):
         Product.query.filter_by(p_id=p_id).update(params)

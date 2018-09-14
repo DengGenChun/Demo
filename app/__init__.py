@@ -14,8 +14,8 @@ app.config.from_pyfile('config.py')
 db = SQLAlchemy(app)
 wxsdk = WXSDK(app.config)
 
-USR = app.config['ADMIN_ACCOUNT']
 PWD = app.config['ADMIN_PASSWORD']
+USR = app.config['ADMIN_ACCOUNT']
 
 from app import views
 from app.api.admin import bp as bp_admin

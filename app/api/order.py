@@ -59,19 +59,39 @@ def create_order():
     p_count = request.args.get('p_count', 0, int)
     if p_count <= 0:
         return utils.ret_err(-1, 'p_count must > 0')
+    if p_count > product.inventory:
+        return utils.ret_err(-1, '库存不足')
+
     username = request.args.get('username', '')
-    if username == '':
+    if username == '' or len(username) > 16:
         return utils.ret_err(-1, 'username is required')
     phone = request.args.get('phone', '')
-    if phone == '':
+    if phone == '' or len(phone) > 16:
         return utils.ret_err(-1, 'phone is required')
     address = request.args.get('address', '')
-    if address == '':
+    if address == '' or len(address) > 128:
         return utils.ret_err(-1, 'address is required')
+    raw_address = request.args.get('raw_address', '')
+    if raw_address == '' or len(raw_address) > 128:
+        return utils.ret_err(-1, 'raw_address is required')
+    record_address = request.args.get("record_address", '')
+    if record_address == '' or not (record_address == "YES" or record_address == "NO"):
+        record_address = "NO"
     comment = request.args.get('comment', '')
+    if len(comment) > 128:
+        return utils.ret_err(-1, 'comment is too long')
+    postcode = request.args.get('postcode', '')
+    if len(postcode) > 8:
+        return utils.ret_err(-1, 'postcode is too long')
+    promotion_path = request.args.get("promotion_path", '')
+    if len(promotion_path) > 64:
+        return utils.ret_err(-1, 'promotion_path is too long')
 
-    order = Order(p_id, p_count, username, phone, address, comment)
+    order = Order(p_id, p_count, username, phone, address, raw_address, comment)
     order.price_sum = p_count * product.price
+    order.postcode = postcode
+    order.record_address = record_address
+    order.promotion_path = promotion_path
     order.trade_state = "NOTPAY"
     order.trade_type = "JSAPI"
     order.openid = openid
@@ -145,7 +165,8 @@ def verify_order(order_no):
 
     order.transaction_id = data["transaction_id"]
     order.pay_time = utils.str2timestamp(data["time_end"])
-    order.product.inventory -= 1
+    order.product.inventory -= order.p_count
+    order.product.sale_count += order.p_count
     db.session.commit()
     return True
 
@@ -169,7 +190,9 @@ def list_order():
     p = order.product
     obj = {
         "order_no": str(order.order_no),
+        "p_id": str(p.p_id),
         "transaction_id": order.transaction_id,
+        "promotion_path": order.promotion_path,
         "p_title": p.title,
         "p_detail": p.detail,
         "p_price": p.price,
@@ -180,9 +203,16 @@ def list_order():
         "username": order.username,
         "phone": order.phone,
         "address": order.address,
+        "raw_address": order.raw_address,
+        "record_address": order.record_address,
         "comment": order.comment,
         "order_time": order.create_time,
-        "pay_time": order.pay_time
+        "pay_time": order.pay_time,
+        "track_no": order.track_no,
+        "track_state": order.track_state,
+        "is_sign": order.is_sign,
+        "sign_time": order.sign_time,
+        "postcode": order.postcode
     }
     return utils.ret_objs(obj)
 
@@ -216,7 +246,9 @@ def list_all_order():
         p = order.product
         obj = {
             "order_no": str(order.order_no),
+            "p_id": str(p.p_id),
             "transaction_id": order.transaction_id,
+            "promotion_path": order.promotion_path,
             "p_title": p.title,
             "p_detail": p.detail,
             "p_price": p.price,
@@ -227,9 +259,16 @@ def list_all_order():
             "username": order.username,
             "phone": order.phone,
             "address": order.address,
+            "raw_address": order.raw_address,
+            "record_address": order.record_address,
             "comment": order.comment,
             "order_time": order.create_time,
-            "pay_time": order.pay_time
+            "pay_time": order.pay_time,
+            "track_no": order.track_no,
+            "track_state": order.track_state,
+            "is_sign": order.is_sign,
+            "sign_time": order.sign_time,
+            "postcode": order.postcode
         }
         objs.append(obj)
 

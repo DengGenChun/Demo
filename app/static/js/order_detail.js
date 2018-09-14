@@ -14,7 +14,9 @@ $(function() {
 	let orderNo = "071511687310";
 	let orderTime = 0;
 	let payTime = 0;
+	let result = {};
 
+	preLoad();
 	parseUrl();
 	load();
 
@@ -26,7 +28,6 @@ $(function() {
 		for (let i = 0; i < kvs.length; i++) {
 			let kv = kvs[i].split("=");
 			args[kv[0]] = kv[1];
-			console.log(kv);
 		}
 		orderNo = args["order_no"];
 	}
@@ -60,6 +61,7 @@ $(function() {
 					return;
 				}
 				fillOrderData(data["result"]);
+				fillWuliuData(data["result"])
 				$d.resolve("订单信息获取成功");
 			},
 			error: function() {
@@ -89,16 +91,25 @@ $(function() {
 		// 	}
 		// });
 		setTimeout(function() {
-			$d.reject("获取物流失败");
+			// $d.reject("获取物流失败");
+			$d.resolve();
 		}, 1000);
 		return $d.promise();
 	}
 
+	function preLoad() {
+		$("#gotoHome").click(function() {
+			window.location.href = "https://h5.youzan.com/v2/home/X8JlT7pnsA?reft=1536918283669&spm=f71487166&sf=wx_menu";
+		});
+	}
+
 	function fillOrderData(res) {
+		result = res;
+
 		username = res["username"];
 		phone = res["phone"];
 		address = res["address"];
-		icon = res["icon"];
+		icon = res["p_icon"];
 		productTitle = res["p_title"];
 		orderCount = res["p_count"];
 		productColor = res["p_color"];
@@ -121,17 +132,21 @@ $(function() {
 		if (orderTime > 0) {
 			$("div[for='orderTime']").text(formatDate(new Date(orderTime), "%Y-%M-%d %H:%m:%s"));
 		}
-		console.log(res);
 		if (payTime > 0) {
 			$("div[for='payTime']").text(formatDate(new Date(payTime), "%Y-%M-%d %H:%m:%s"));
-			console.log(formatDate(new Date(payTime), "%Y-%M-%d %H:%m:%s"));
 		}
 	}
 
 	function fillWuliuData(res) {
-		// $("div[for='signTitle']").text(signTitle);
-		// $("div[for='signTime']").text(signTime);
-		// $("div[for='isSign']").text(isSign ? "已签收" : "未签收");
+		signTitle = res["track_state"];
+		signTime = res["sign_time"];
+		isSign = res["is_sign"] == "YES" ? true : false;
+
+		$("div[for='signTitle']").text(signTitle);
+		if (signTime > 0) {
+			$("div[for='signTime']").text(formatDate(new Date(signTime), "%Y-%M-%d %H:%m:%s"));
+		}
+		$("div[for='isSign']").text(isSign ? "已签收" : "未签收");
 	}
 
 	function formatDate(date, fmt) {
@@ -141,17 +156,17 @@ $(function() {
 		return fmt.replace(/%([a-zA-Z])/g, function(_, fmtCode) {
 			switch (fmtCode) {
 				case 'Y':
-					return date.getUTCFullYear();
+					return date.getFullYear();
 				case 'M':
-					return pad(date.getUTCMonth() + 1);
+					return pad(date.getMonth() + 1);
 				case 'd':
-					return pad(date.getUTCDate());
+					return pad(date.getDate());
 				case 'H':
-					return pad(date.getUTCHours());
+					return pad(date.getHours());
 				case 'm':
-					return pad(date.getUTCMinutes());
+					return pad(date.getMinutes());
 				case 's':
-					return pad(date.getUTCSeconds());
+					return pad(date.getSeconds());
 				default:
 					throw new Error('Unsupported format code: ' + fmtCode);
 			}
@@ -165,7 +180,10 @@ $(function() {
 		});
 		$("#reorder-button").click(function(event) {
 			console.log("再来一单");
-			window.location.href = "/VwqXrMRgdzjBpP69cSt6LhLHYAwCwyF";
+
+			let path = result["promotion_path"];
+			let order_no = result["order_no"];
+			window.location.href = path + "?order_no=" + order_no;
 		});
 	}
 

@@ -5,6 +5,7 @@ import random
 import time
 import hashlib
 import json
+import string
 
 
 # 生成随机整数(18位)
@@ -14,6 +15,11 @@ def random_id():
     rand = str(random.randrange(10000, 99999))
     millis = datetime.datetime.utcnow().strftime('%f')[:-3]
     return int(millis + date[:5] + rand + date[5:])
+
+
+def random_str():
+    chars = string.ascii_letters + string.digits
+    return "".join(random.choice(chars) for _ in range(32))
 
 
 def timestamp():

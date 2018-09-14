@@ -5,9 +5,7 @@
 	"currCount" : 1,
 	"firstImageSrc" : "images/0.jpg",
 	"detailImageSrc" : [
-		"images/1.jpg",
-		"images/2.jpg",
-		"images/3.jpg"
+		"images/1.jpg"
 	],
 	"selectedIndex" : 0,
 	"flags" : [
