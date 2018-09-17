@@ -63,6 +63,9 @@ def update_product():
     price = request.args.get('price', 0, float)
     if price > 0:
         params["price"] = price
+    original_price = request.args.get('original_price', 0, float)
+    if original_price > 0:
+        params["original_price"] = original_price
     inventory = request.args.get('inventory', 0, int)
     if inventory > 0:
         params["inventory"] = inventory

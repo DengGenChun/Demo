@@ -52,37 +52,37 @@ def create_order():
     p_id = request.args.get('p_id')
     product = Product.query.filter_by(p_id=p_id).first()
     if product is None:
-        return utils.ret_err(-1, 'p_id is wrong')
+        return utils.ret_err(-1, '无效的商品')
     if product.inventory < 1:
         return utils.ret_err(-1, '库存不足')
 
     p_count = request.args.get('p_count', 0, int)
     if p_count <= 0:
-        return utils.ret_err(-1, 'p_count must > 0')
+        return utils.ret_err(-1, '商品数量必须大于0')
     if p_count > product.inventory:
         return utils.ret_err(-1, '库存不足')
 
     username = request.args.get('username', '')
     if username == '' or len(username) > 16:
-        return utils.ret_err(-1, 'username is required')
+        return utils.ret_err(-1, '姓名为空或过长')
     phone = request.args.get('phone', '')
     if phone == '' or len(phone) > 16:
-        return utils.ret_err(-1, 'phone is required')
+        return utils.ret_err(-1, '手机号为空或过长')
     address = request.args.get('address', '')
     if address == '' or len(address) > 128:
-        return utils.ret_err(-1, 'address is required')
+        return utils.ret_err(-1, '收货地址为空或过长')
     raw_address = request.args.get('raw_address', '')
     if raw_address == '' or len(raw_address) > 128:
-        return utils.ret_err(-1, 'raw_address is required')
+        return utils.ret_err(-1, 'raw收货地址为空或过长')
     record_address = request.args.get("record_address", '')
     if record_address == '' or not (record_address == "YES" or record_address == "NO"):
         record_address = "NO"
     comment = request.args.get('comment', '')
     if len(comment) > 128:
-        return utils.ret_err(-1, 'comment is too long')
+        return utils.ret_err(-1, '留言过长')
     postcode = request.args.get('postcode', '')
     if len(postcode) > 8:
-        return utils.ret_err(-1, 'postcode is too long')
+        return utils.ret_err(-1, '邮政编码过长')
     promotion_path = request.args.get("promotion_path", '')
     if len(promotion_path) > 64:
         return utils.ret_err(-1, 'promotion_path is too long')
@@ -108,7 +108,7 @@ def create_order():
         raw = wxsdk.jsapi(**data)
     except WXPayError as e:
         logging.warning("createOrder: openid=%s, errmsg=%s" % (openid, str(e)))
-        return utils.ret_err(-1, "createOrder: errmsg=%s" % str(e))
+        return utils.ret_err(-1, str(e))
 
     db.session.add(order)
     db.session.commit()
@@ -122,6 +122,9 @@ def create_order():
 
 @bp.route('/notifyOrder', methods=['POST'])
 def notify_order():
+    """
+    微信支付结果回调
+    """
     dic = wxsdk.to_dict(request.data)
     if dic['return_code'] == "FAIL":
         return wxsdk.reply("支付失败", False)
@@ -129,6 +132,7 @@ def notify_order():
     out_trade_no = dic["out_trade_no"]
     order = Order.query.filter_by(order_no=int(out_trade_no)).first()
     if order.notify_state == "CHECKED":
+        # 支付结果已经成功接收到并处理
         return wxsdk.reply("OK")
 
     if not wxsdk.check_sign(dic):
@@ -144,10 +148,17 @@ def notify_order():
 
 
 def verify_order(order_no):
+    """
+    验证订单
+    向微信请求验证订单的状态
+    :param order_no: 订单号
+    :return: True if 支付成功, False if 支付失败
+    """
     order = Order.query.filter_by(order_no=order_no).first()
     if order is None:
         return False
     if order.trade_state == "SUCCESS":
+        # 已经支付成功直接返回, 避免再次发送请求验证订单
         return True
 
     data = dict()
@@ -160,9 +171,11 @@ def verify_order(order_no):
     order.trade_state = data["trade_state"]
     order.trade_state_desc = data["trade_state_desc"]
     if order.trade_state != "SUCCESS":
+        # 支付失败
         db.session.commit()
         return False
 
+    # 支付成功
     order.transaction_id = data["transaction_id"]
     order.pay_time = utils.str2timestamp(data["time_end"])
     order.product.inventory -= order.p_count
@@ -173,6 +186,10 @@ def verify_order(order_no):
 
 @bp.route('/listOrder', methods=['GET'])
 def list_order():
+    """
+    查询单个订单
+    :return:
+    """
     openid = request.cookies.get("openid")
     if not openid:
         openid = request.args.get("openid")
@@ -182,8 +199,7 @@ def list_order():
     order_no = request.args.get('order_no', '')
     order = Order.query.filter_by(order_no=order_no, openid=openid).first()
     if order is None:
-        return utils.ret_err(-1, 'order_no is wrong')
-
+        return utils.ret_err(-1, '订单不存在')
     if not verify_order(order_no):
         return utils.ret_err(-1, order.trade_state_desc)
 
@@ -219,6 +235,12 @@ def list_order():
 
 @bp.route('/listAllOrder', methods=['GET'])
 def list_all_order():
+    """
+    查询所有订单
+    @args: trade_state 订单状态[SUCCESS, NOTPAY] 详见https://pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=9_2
+    @args: order_by_time 按时间排序[asc, desc], 默认是 desc
+    :return:
+    """
     openid = request.cookies.get("openid")
     if not openid:
         openid = request.args.get("openid")
@@ -237,7 +259,7 @@ def list_all_order():
     if order_by_time:
         if order_by_time == "asc":
             stat = stat.order_by(Order.create_time.asc())
-        elif order_by_time == "desc":
+        else:
             stat = stat.order_by(Order.create_time.desc())
 
     objs = []

@@ -84,6 +84,7 @@ class Product(db.Model):
     p_id = db.Column(db.BigInteger, nullable=False, unique=True, index=True)
     name = db.Column(db.String(32), nullable=False)
     price = db.Column(db.Float, nullable=False)
+    original_price = db.Column(db.Float, nullable=False, default=0)
     inventory = db.Column(db.Integer, nullable=False, default=0)
     sale_count = db.Column(db.Integer, nullable=False, default=0)
     title = db.Column(db.String(64), default='')
@@ -114,6 +115,7 @@ class Product(db.Model):
             'product_id': str(self.p_id),
             'name': self.name,
             'price': self.price,
+            "original_price": self.original_price,
             'inventory': self.inventory,
             "sale_count": self.sale_count,
             'title': self.title,

@@ -17,6 +17,14 @@ $(function() {
 
 
 	function preLoad() {
+		// 初始化地区
+		$('#dist-select').distpicker({
+	    	autoSelect: false,
+	    	placeholder: true,
+	        province: '请选择省份',
+	        city: '请选择城市',
+	        district: '请选择地区'
+	    });
 		$(window).scroll(function() {
 			let windowBottom = $(window).scrollTop() + $(window).height();
 			if (windowBottom > $('.order-header').offset().top) {
@@ -129,6 +137,14 @@ $(function() {
 		if (!order || Object.keys(order).length === 0) {
 			return;
 		}
+		isRecordAddress = order.record_address == "YES" ? true : false;
+		if (!isRecordAddress) {
+			// 用户没有选择记录收货地址, 不自动填写
+			// 默认让记录收货地址选中
+			isRecordAddress = true;
+			$('.record-address .circle').removeClass('inactive');
+			return;
+		}
 
 		$('#name').val(order.username);
 		$('#phone').val(order.phone);
@@ -140,14 +156,15 @@ $(function() {
 		let city = ary[1];
 		let district = ary[2];
 		let address = ary[3];
-		$('#dist-select').distpicker('destory');
+		$('#dist-select').distpicker('destroy');
 		$('#dist-select').distpicker({
+			autoSelect: false,
+	    	placeholder: true,
 			province: province,
 			city: city,
 			district: district
 		});
 		$('#address').val(address);
-		isRecordAddress = order.record_address == "YES" ? true : false;
 		if (!isRecordAddress) {
 			$('.record-address .circle').addClass('inactive');
 		}
@@ -229,8 +246,6 @@ $(function() {
 		$('.order-submit-button').click(function() {
 			debounceSubmit();
 		});
-		// 重置地区选择
-		$('#dist-select').distpicker('reset', true);
 	}
 
 
@@ -249,15 +264,23 @@ $(function() {
 		$("#product-count").text(currCount);
 	}
 	function updatePrice() {
-		if (selectedIndex == -1) {
-			$(".price").text("￥" + items[0].price);
-			$(".productTitle").text(items[0].title);
-			$("#price-sum").text("￥" + items[0].price);
+		// 没有选择商品时，默认显示第一个商品的价格
+		let index = 0;
+		let priceSum = items[index].price;
+		if (selectedIndex !== -1) {
+			// 有选择商品时
+			index = selectedIndex;
+			priceSum = currCount * items[selectedIndex].price;
+		}
+		$(".price").text("￥" + items[index].price);
+		$(".productTitle").text(items[index].title);
+		$("#price-sum").text("￥" + priceSum);
+		if (items[index].original_price > 0) {
+			$(".original-price").text("原价："+items[index].original_price+"元")
+			$(".original-price").css("padding-top", "10px");
 		} else {
-			let price = currCount * items[selectedIndex].price
-			$(".price").text("￥" + items[selectedIndex].price);
-			$(".productTitle").text(items[selectedIndex].title);
-			$("#price-sum").text("￥" + price);
+			$(".original-price").text("")
+			$(".original-price").css("padding-top", "0");
 		}
 	}
 
@@ -389,10 +412,12 @@ $(function() {
 		});
 	}
 	function WXPayRequest(result) {
+		loading();
 		let order_no = result.order_no;
 
 		function onBridgeReady() {
 			WeixinJSBridge.invoke('getBrandWCPayRequest', result.data, function(res) {
+				cancelLoading();
 				window.location.href = "/trade_result.html?order_no=" + order_no;
 			});
 		}
