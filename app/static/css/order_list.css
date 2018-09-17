@@ -13,19 +13,39 @@ img {
 }
 
 .row {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  flex-direction: row;
-  flex-wrap: nowrap;
-  justify-content: flex-start;
-  align-items: stretch;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -ms-flex-wrap: nowrap;
+      flex-wrap: nowrap;
+  -webkit-box-pack: start;
+      -ms-flex-pack: start;
+          justify-content: flex-start;
+  -webkit-box-align: stretch;
+      -ms-flex-align: stretch;
+          align-items: stretch;
 }
 
 .col {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  flex-direction: column;
-  flex-wrap: nowrap;
-  justify-content: flex-start;
-  align-items: stretch;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -ms-flex-wrap: nowrap;
+      flex-wrap: nowrap;
+  -webkit-box-pack: start;
+      -ms-flex-pack: start;
+          justify-content: flex-start;
+  -webkit-box-align: stretch;
+      -ms-flex-align: stretch;
+          align-items: stretch;
 }
 
 .title {
@@ -52,11 +72,15 @@ img {
 }
 
 .placeholder {
-  flex: 1;
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
 }
 
 .flex-y-center {
-  align-self: center;
+  -ms-flex-item-align: center;
+      -ms-grid-row-align: center;
+      align-self: center;
 }
 
 .order {
@@ -68,6 +92,17 @@ img {
 .order .header .icon {
   width: 0.5333333333rem;
   height: 0.5333333333rem;
+}
+.order .header .title {
+  position: relative;
+}
+.order .header .title::after {
+  content: "";
+  position: absolute;
+  top: -10px;
+  right: -20px;
+  bottom: -10px;
+  left: -20px;
 }
 .order .header .subtitle {
   font-size: 12px;
@@ -86,11 +121,15 @@ img {
   font-size: 12px;
 }
 .order .row:nth-child(3) {
-  justify-content: flex-end;
+  -webkit-box-pack: end;
+      -ms-flex-pack: end;
+          justify-content: flex-end;
   padding: 10px 10px;
 }
 .order .row:nth-child(3) div:nth-child(1), .order .row:nth-child(3) div:nth-child(2) {
-  align-self: center;
+  -ms-flex-item-align: center;
+      -ms-grid-row-align: center;
+      align-self: center;
   font-weight: normal;
   font-size: 10px;
 }
@@ -101,7 +140,9 @@ img {
   padding-left: 5px;
 }
 .order .row:nth-child(5) {
-  justify-content: flex-end;
+  -webkit-box-pack: end;
+      -ms-flex-pack: end;
+          justify-content: flex-end;
   padding: 10px 15px;
 }
 .order .row:nth-child(5) .purchase-btn {
@@ -122,7 +163,8 @@ img {
   text-align: center;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%);
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
   font-size: 16px;
   display: none;
 }

@@ -1,5 +1,5 @@
 $(function() {
-	let args = {};
+	let params = {};
 	let minCount = 1;
 	let maxCount = 10;
 	let currCount = 1;
@@ -11,15 +11,30 @@ $(function() {
 	let isRecordAddress = true;
 	let order = {};
 
+
 	preLoad();
 	load();
 
+
+	function preLoad() {
+		$(window).scroll(function() {
+			let windowBottom = $(window).scrollTop() + $(window).height();
+			if (windowBottom > $('.order-header').offset().top) {
+				$('#btn-list').fadeOut(300);
+			} else {
+				$('#btn-list').fadeIn(300);
+			}
+		});
+		$("#gotoHome").click(function() {
+			window.location.href = "https://h5.youzan.com/v2/home/X8JlT7pnsA?reft=1536918283669&spm=f71487166&sf=wx_menu";
+		});
+	}
 	function load() {
 		loading();
-		$.when(loadData(), loadOrder())
+		$.when(loadProduct(), loadOrder())
 			.done(function() {
 				initEvent();
-				initOrderData();
+				loadOrderSuccess();
 			})
 			.fail(function(msg) {
 				if (msg && msg !== "") {
@@ -31,7 +46,8 @@ $(function() {
 			});
 	}
 
-	function loadData() {
+
+	function loadProduct() {
 		let url = location.pathname + ".json"
 		let $d = $.Deferred();
 		$.ajax({
@@ -43,7 +59,7 @@ $(function() {
 					$d.reject(data["msg"]);
 					return;
 				}
-				initData(data["result"]);
+				loadProductSuccess(data["result"]);
 				$d.resolve();
 			},
 			error: function() {
@@ -52,10 +68,9 @@ $(function() {
 		});
 		return $d.promise();
 	}
-
 	function loadOrder() {
 		let $d = $.Deferred();
-		let order_no = getArgs("order_no");
+		let order_no = getQueryParameter("order_no");
 		if (!order_no || order_no == "") {
 			$d.resolve();
 		} else {
@@ -80,26 +95,10 @@ $(function() {
 					$d.reject("");
 				}
 			});
-
 		}
 		return $d.promise();
 	}
-
-	function preLoad() {
-		$(window).scroll(function() {
-			let windowBottom = $(window).scrollTop() + $(window).height();
-			if (windowBottom > $('.order-header').offset().top) {
-				$('#btn-list').fadeOut(300);
-			} else {
-				$('#btn-list').fadeIn(300);
-			}
-		});
-		$("#gotoHome").click(function() {
-			window.location.href = "https://h5.youzan.com/v2/home/X8JlT7pnsA?reft=1536918283669&spm=f71487166&sf=wx_menu";
-		});
-	}
-
-	function initData(result) {
+	function loadProductSuccess(result) {
 		firstImageSrc = result["first_image"];
 		detailImageSrc = result["detail_image"];
 		items = result["products"];
@@ -126,8 +125,7 @@ $(function() {
 		}
 		$(".saleCount").text("销量：" + saleCount);
 	}
-
-	function initOrderData() {
+	function loadOrderSuccess() {
 		if (!order || Object.keys(order).length === 0) {
 			return;
 		}
@@ -169,7 +167,9 @@ $(function() {
 		}, 500);
 	}
 
+
 	function initEvent() {
+		// 颜色按钮点击事件
 		$(".color-button").click(function() {
 			let buttons = $(".color-button");
 			let index = buttons.index(this);
@@ -187,6 +187,7 @@ $(function() {
 			flags[selectedIndex] = true;
 			updatePrice();
 		});
+		// 数量 "-" 按钮
 		$("#count-spinner .left").click(function() {
 			if (currCount > minCount) {
 				currCount--;
@@ -197,6 +198,7 @@ $(function() {
 			updateCountButton();
 			updatePrice();
 		});
+		// 数量 "+" 按钮
 		$("#count-spinner .right").click(function() {
 			if (currCount < maxCount) {
 				currCount++;
@@ -207,11 +209,13 @@ $(function() {
 			updateCountButton();
 			updatePrice();
 		});
+		// 立即抢购按钮, 跳到填写订单处
 		$('#purchase-btn').click(function() {
 			$('html, body').animate({
 				scrollTop: $('.order-header').offset().top
 			}, 500);
 		});
+		// 记录收货地址
 		$('.record-address').click(function() {
 			if (isRecordAddress) {
 				$('.record-address .circle').addClass("inactive");
@@ -220,12 +224,15 @@ $(function() {
 			}
 			isRecordAddress = !isRecordAddress;
 		});
+		// 提交订单
 		let debounceSubmit = debounce(submitOrder, 100, true);
 		$('.order-submit-button').click(function() {
 			debounceSubmit();
 		});
+		// 重置地区选择
 		$('#dist-select').distpicker('reset', true);
 	}
+
 
 	function updateCountButton() {
 		if (currCount === minCount) {
@@ -254,6 +261,7 @@ $(function() {
 		}
 	}
 
+
 	function validateName(name) {
 		let msg = '';
 		if (name === '') {
@@ -268,7 +276,6 @@ $(function() {
 		}
 		return true;
 	}
-
 	function validatePhone(phone) {
 		let msg = '';
 		if (phone === '') {
@@ -285,7 +292,6 @@ $(function() {
 		}
 		return true;
 	}
-
 	function validateArea() {
 		let msg = '';
 		let areaElement = $("#dist-select option:selected");
@@ -354,7 +360,7 @@ $(function() {
 		console.log("rawAddress: " + rawAddress);
 	 	console.log("postcode: " + postcode);
 
-		$('body').addClass("loading");
+		loading();
 		$.get("/api/createOrder", {
 			"p_id": items[selectedIndex].product_id,
 			"p_count": currCount,
@@ -379,10 +385,9 @@ $(function() {
 		}, "json").fail(function () {
 			layer.alert("无法连接网络，请稍后再试");
 		}).always(function() {
-			$('body').removeClass("loading")
+			cancelLoading();
 		});
 	}
-
 	function WXPayRequest(result) {
 		let order_no = result.order_no;
 
@@ -404,27 +409,20 @@ $(function() {
 		}
 	}
 
-	function loading() {
-		$('body').addClass("loading");
-	}
 
-	function cancelLoading() {
-		$('body').removeClass("loading");
-	}
-
-
-	function getArgs(key) {
-		if (args[key]) {
-			return args[key];
+	function getQueryParameter(key) {
+		if (params[key]) {
+			return params[key];
 		}
 		let url = window.location.search.substring(1);
 		let kvs = url.split("&");
 		for (let i = 0; i < kvs.length; i++) {
 			let kv = kvs[i].split("=");
-			args[kv[0]] = kv[1];
+			params[kv[0]] = kv[1];
 		}
-		return args[key];
+		return params[key];
 	}
+
 
 	function debounce(func, delay, immediate) {
 		let tid;
@@ -443,5 +441,13 @@ $(function() {
 				func.apply(context, args);
 			}
 		}
+	}
+
+
+	function loading() {
+		$('body').addClass("loading");
+	}
+	function cancelLoading() {
+		$('body').removeClass("loading");
 	}
 });
