@@ -7,7 +7,7 @@ $(function() {
 	function load() {
 		loading();
 		$.ajax({
-			url: '/api/listAllOrder',
+			url: '/api/listOrder',
 			type: 'GET',
 			dataType: 'json',
 			data: {

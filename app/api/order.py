@@ -187,56 +187,7 @@ def verify_order(order_no):
 @bp.route('/listOrder', methods=['GET'])
 def list_order():
     """
-    查询单个订单
-    :return:
-    """
-    openid = request.cookies.get("openid")
-    if not openid:
-        openid = request.args.get("openid")
-        if not openid:
-            return utils.ret_err(-1, "ERR_INVALID_OPENID")
-
-    order_no = request.args.get('order_no', '')
-    order = Order.query.filter_by(order_no=order_no, openid=openid).first()
-    if order is None:
-        return utils.ret_err(-1, '订单不存在')
-    if not verify_order(order_no):
-        return utils.ret_err(-1, order.trade_state_desc)
-
-    p = order.product
-    obj = {
-        "order_no": str(order.order_no),
-        "p_id": str(p.p_id),
-        "transaction_id": order.transaction_id,
-        "promotion_path": order.promotion_path,
-        "p_title": p.title,
-        "p_detail": p.detail,
-        "p_price": p.price,
-        "p_color": p.color,
-        "p_icon": p.icon,
-        "p_count": order.p_count,
-        "price_sum": order.price_sum,
-        "username": order.username,
-        "phone": order.phone,
-        "address": order.address,
-        "raw_address": order.raw_address,
-        "record_address": order.record_address,
-        "comment": order.comment,
-        "order_time": order.create_time,
-        "pay_time": order.pay_time,
-        "track_no": order.track_no,
-        "track_state": order.track_state,
-        "is_sign": order.is_sign,
-        "sign_time": order.sign_time,
-        "postcode": order.postcode
-    }
-    return utils.ret_objs(obj)
-
-
-@bp.route('/listAllOrder', methods=['GET'])
-def list_all_order():
-    """
-    查询所有订单
+    查询订单
     @args: trade_state 订单状态[SUCCESS, NOTPAY] 详见https://pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=9_2
     @args: order_by_time 按时间排序[asc, desc], 默认是 desc
     :return:
@@ -247,14 +198,20 @@ def list_all_order():
         if not openid:
             return utils.ret_err(-1, "ERR_INVALID_OPENID")
 
-    filters = dict()
-    filters.setdefault("openid", openid)
+    stat = Order.query.filter_by(openid=openid)
+
+    order_no = request.args.get('order_no', '')
+    if order_no:
+        stat = stat.filter_by(order_no=order_no)
+        _order = stat.first()
+        if _order is None:
+            return utils.ret_err(-1, '订单不存在')
+        if not verify_order(order_no):
+            return utils.ret_err(-1, _order.trade_state_desc)
 
     trade_state = request.args.get('trade_state')
     if trade_state:
-        filters['trade_state'] = trade_state
-
-    stat = Order.query.filter_by(**filters)
+        stat = stat.filter_by(trade_state=trade_state)
     order_by_time = request.args.get("order_by_time")
     if order_by_time:
         if order_by_time == "asc":
@@ -271,6 +228,7 @@ def list_all_order():
             "p_id": str(p.p_id),
             "transaction_id": order.transaction_id,
             "promotion_path": order.promotion_path,
+            "p_name": p.name,
             "p_title": p.title,
             "p_detail": p.detail,
             "p_price": p.price,
@@ -288,6 +246,7 @@ def list_all_order():
             "pay_time": order.pay_time,
             "track_no": order.track_no,
             "track_state": order.track_state,
+            "track_time": order.track_time,
             "is_sign": order.is_sign,
             "sign_time": order.sign_time,
             "postcode": order.postcode

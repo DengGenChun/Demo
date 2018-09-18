@@ -94,7 +94,7 @@ $(function() {
 						$d.reject(data["msg"]);
 						return;
 					}
-					order = data["result"];
+					order = data["result"][0];
 					setTimeout(function() {
 						$d.resolve("订单信息获取成功");
 					}, 200);
@@ -170,7 +170,7 @@ $(function() {
 		}
 
 		for (let i = 0; i < items.length; i++) {
-			if (items[i].product_id == order.p_id) {
+			if (items[i].p_id == order.p_id) {
 				selectedIndex = i;
 				break;
 			}

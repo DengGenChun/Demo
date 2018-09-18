@@ -27,10 +27,13 @@ class Order(db.Model):
     create_time = db.Column(db.BigInteger, nullable=False)
     pay_time = db.Column(db.BigInteger, nullable=False)
     track_no = db.Column(db.String(32), default='')
+    track_code = db.Column(db.Integer, nullable=False, default=0)
     track_state = db.Column(db.String(128), default='等待商家发货')
+    track_time = db.Column(db.BigInteger, nullable=False)
     is_sign = db.Column(db.String(8), default='NO')
     sign_time = db.Column(db.BigInteger, nullable=False)
     postcode = db.Column(db.String(8), default='')
+    kjyp_state = db.Column(db.String(64), default='')
 
     def __init__(self, p_id, p_count, username, phone, address, raw_address, comment=''):
         self.p_id = p_id
@@ -44,6 +47,7 @@ class Order(db.Model):
         self.create_time = utils.timestamp()
         self.pay_time = 0
         self.sign_time = 0
+        self.track_time = 0
 
     def __repr__(self):
         return '<Order order_no=%d, p_count=%d, price_sum=%f, username=%s, phone=%s, create_time=%s>' \
@@ -71,10 +75,13 @@ class Order(db.Model):
             "create_time": self.create_time,
             "pay_time": self.pay_time,
             "track_no": self.track_no,
+            "track_code": self.track_code,
             "track_state": self.track_state,
+            "track_time": self.track_time,
             "is_sign": self.is_sign,
             "sign_time": self.sign_time,
-            "postcode": self.postcode
+            "postcode": self.postcode,
+            "kjyp_state": self.kjyp_state
         }
 
 
@@ -112,7 +119,7 @@ class Product(db.Model):
 
     def asdict(self):
         return {
-            'product_id': str(self.p_id),
+            'p_id': str(self.p_id),
             'name': self.name,
             'price': self.price,
             "original_price": self.original_price,

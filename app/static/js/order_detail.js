@@ -68,9 +68,9 @@ $(function() {
 					$d.reject(data["msg"]);
 					return;
 				}
-				result = data["result"];
-				loadOrderSuccess(data["result"]);
-				loadWuliuSuccess(data["result"])
+				result = data["result"][0];
+				loadOrderSuccess(result);
+				loadWuliuSuccess(result);
 				$d.resolve("订单信息获取成功");
 			},
 			error: function() {
@@ -112,7 +112,7 @@ $(function() {
 	}
 	function loadWuliuSuccess(res) {
 		signTitle = res["track_state"];
-		signTime = res["sign_time"];
+		signTime = res["track_time"];
 		isSign = res["is_sign"] == "YES" ? true : false;
 
 		$("div[for='signTitle']").text(signTitle);
