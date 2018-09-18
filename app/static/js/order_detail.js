@@ -153,11 +153,12 @@ $(function() {
 	function initEvent() {
 		$(".first .row:nth-child(1)").click(function(event) {
 			console.log("进入物流信息页面");
-			console.log("进入物流信息页面-----TODO");
-			console.log("进入物流信息页面-----TODO");
-			console.log("进入物流信息页面-----TODO");
-			console.log("进入物流信息页面-----TODO");
-			console.log("进入物流信息页面-----TODO");
+			let trackNo = result["track_no"];
+			if (trackNo && trackNo !== '') {
+				window.location.href = '/logistic.html?logi_no=' + trackNo;
+			} else {
+				window.location.href = '/logistic.html';
+			}
 		});
 		$("#reorder-button").click(function(event) {
 			console.log("再来一单");
