@@ -38,8 +38,9 @@ ul li {
 }
 
 .track-rcol {
-  width: 375px;
+  width: 373px;
   border: 1px solid #eee;
+  border-bottom: 0;
 }
 
 .track-list {
