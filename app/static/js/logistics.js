@@ -9,13 +9,16 @@ $(function(){
 		var url = window.location.href;
 		var paramsString = window.location.search;
 		var re = RegExp(/(.+)?logi_no(.+)?/);
+		var logi_d = '';
 		if(re.test(paramsString)){
 			paramsString  = paramsString.substring(1);//delete?
 			paramsString  = paramsString.split("&");
 			logi_no = paramsString[0];
 			logi_no = logi_no.split("logi_no=");
 			logi_no = logi_no[1];
-			$("#logi").text(logi_no);
+			logi_d = document.getElementById("logi").innerHTML;
+			logi_d = logi_d+logi_no;
+			$("#logi").text(logi_d);
 			loadOrder();
 		}
 		else{
