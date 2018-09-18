@@ -22,7 +22,7 @@ $(function(){
 			loadOrder();
 		}
 		else{
-			$("#content").prepend('<li class="first"><div class="aa"></div><img class="node-icon" src="images/red-icon.png"><span class="txt">等待商家发货</span></li>');
+			$("#content").prepend('<li class="first"><div class="aa"></div><img class="node-icon" src="images/red-icon.png"><span class="txt">等待商家发货</span><div class="kong1"></div></li>');
 		}
 	}
 
@@ -44,10 +44,10 @@ $(function(){
 					for (let i = 0; i<logi_sum; i++) {
 						if(i!=(logi_sum-1)){
 							
-							$("#content").prepend('<li><img class="node-icon-grey" src="images/grey-icon.png"><span class="txt">'+logi_temp[i].remark+'</span><span class="time">'+logi_temp[i].accept_time+'</span></li>');
+							$("#content").prepend('<li><img class="node-icon-grey" src="images/grey-icon.png"><span class="txt">'+logi_temp[i].remark+'</span><span class="time">'+logi_temp[i].accept_time+'</span><div class="kong1"></div></li>');
 						}
 						else{
-							$("#content").prepend('<li class="first"><div class="aa"></div><img class="node-icon" src="images/red-icon.png"><span class="txt">'+logi_temp[i].remark+'</span><span class="time">'+logi_temp[i].accept_time+'</span></li>');
+							$("#content").prepend('<li class="first"><div class="aa"></div><img class="node-icon" src="images/red-icon.png"><span class="txt">'+logi_temp[i].remark+'</span><span class="time">'+logi_temp[i].accept_time+'</span><div class="kong1"></div></li>');
 						}
 					}
 					

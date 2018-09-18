@@ -30,7 +30,11 @@ img {
 
 .kong {
   height: 0.2666666667rem;
-  width: 375px;
+}
+
+.kong1 {
+  height: 0.2666666667rem;
+  border-bottom: 1px solid #d9d9d9;
 }
 
 ul li {
@@ -38,7 +42,6 @@ ul li {
 }
 
 .track-rcol {
-  width: 373px;
   border: 1px solid #eee;
   border-bottom: 0;
 }
@@ -102,7 +105,6 @@ ul li {
 }
 
 .track-list li .txt {
-  max-width: 600px;
   position: relative;
   top: 4px;
   display: block;
