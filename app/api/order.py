@@ -88,6 +88,7 @@ def create_order():
         return utils.ret_err(-1, 'promotion_path is too long')
 
     order = Order(p_id, p_count, username, phone, address, raw_address, comment)
+
     order.price_sum = p_count * product.price
     order.postcode = postcode
     order.record_address = record_address

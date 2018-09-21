@@ -26,12 +26,12 @@ class Order(db.Model):
     notify_state = db.Column(db.String(16), nullable=False, default='UNCHECKED')
     create_time = db.Column(db.BigInteger, nullable=False)
     pay_time = db.Column(db.BigInteger, nullable=False)
-    track_no = db.Column(db.String(32), default='')
-    track_code = db.Column(db.Integer, nullable=False, default=0)
-    track_state = db.Column(db.String(128), default='等待商家发货')
-    track_time = db.Column(db.BigInteger, nullable=False)
-    is_sign = db.Column(db.String(8), default='NO')
-    sign_time = db.Column(db.BigInteger, nullable=False)
+    track_no = db.Column(db.String(32), default='')#订单号
+    track_code = db.Column(db.Integer, nullable=False, default=0)#订单状态码
+    track_state = db.Column(db.String(128), default='等待商家发货')#订单状态
+    track_time = db.Column(db.BigInteger, nullable=False)#订单时间
+    is_sign = db.Column(db.String(8), default='NO')#是否签收
+    sign_time = db.Column(db.BigInteger, nullable=False)#签收时间
     postcode = db.Column(db.String(8), default='')
     kjyp_state = db.Column(db.String(64), default='')
 

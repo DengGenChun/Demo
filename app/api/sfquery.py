@@ -64,5 +64,3 @@ def callSfExpressServiceByCSIM(reqURL, myReqXml, clientCode, checkword):
 #     }
 #     return json.dumps(data,ensure_ascii=False)
 
-
-
