@@ -15,7 +15,7 @@ $(function() {
 	preLoad();
 	load();
 
-
+	
 	function preLoad() {
 		// 初始化地区
 		$('#dist-select').distpicker({
@@ -111,7 +111,7 @@ $(function() {
 		detailImageSrc = result["detail_image"];
 		items = result["products"];
 
-
+		$(document).attr("title", result["html_title"]);
 		$('.first-image').attr("src", firstImageSrc);
 		let detailHtml = '<img class="detail-image" src="{$1}"></img>';
 		for (let i = 0; i < detailImageSrc.length; i++) {
@@ -338,7 +338,7 @@ $(function() {
 
 	function submitOrder() {
 		if (selectedIndex == -1) {
-			layer.alert("请选择商品");
+			layer.alert("请选择规格");
 			return;
 		}
 		let nameElement = $('#name');
@@ -385,7 +385,7 @@ $(function() {
 
 		loading();
 		$.get("/api/createOrder", {
-			"p_id": items[selectedIndex].product_id,
+			"p_id": items[selectedIndex].p_id,
 			"p_count": currCount,
 			"username": name,
 			"phone": phone,
