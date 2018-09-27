@@ -39,12 +39,9 @@ def VwqXrMRgdzjBpP69cSt6LhLHYAwCwyFA_json():
         ary.append(product.asdict())
 
     obj = {
-        "html_title": "",
-        "first_image": "file/W1_F_01.jpg",
+        "html_title": "测试",
+        "first_image": "",
         "detail_image": [
-            "file/W1_01.jpg",
-            "file/W1_02.jpg",
-            "file/W1_03.jpg"
         ],
         "products": ary
     }
@@ -61,12 +58,14 @@ def F6xHBqT3LlUhHmcj7PbkkuSYRfBYLsrd_json():
         ary.append(product.asdict())
 
     obj = {
-        "html_title": "",
-        "first_image": "file/T1_F_01.jpg",
+        "html_title": "T1-3D版国庆换新大促",
+        "first_image": "file/T1_H_01.jpg",
         "detail_image": [
             "file/T1_01.jpg",
             "file/T1_02.jpg",
-            "file/T1_03.jpg"
+            "file/T1_03.jpg",
+            "file/T1_04.jpg",
+            "file/T1_05.jpg"
         ],
         "products": ary
     }
@@ -84,12 +83,14 @@ def jYis4ENd3UjqcnkcknwYQ5PeKuj8DRBw_json():
         ary.append(product.asdict())
 
     obj = {
-        "html_title": "",
-        "first_image": "file/W1_F_01.jpg",
+        "html_title": "W1儿童手表国庆大促",
+        "first_image": "file/W1_H_01.jpg",
         "detail_image": [
             "file/W1_01.jpg",
             "file/W1_02.jpg",
-            "file/W1_03.jpg"
+            "file/W1_03.jpg",
+            "file/W1_04.jpg",
+            "file/W1_05.jpg"
         ],
         "products": ary
     }
