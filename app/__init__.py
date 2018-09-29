@@ -5,8 +5,17 @@ from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import create_engine
 from app.wxsdk import WXSDK
 import logging
+import time
 
-# logging.basicConfig(filename="logger.log", level=logging.INFO)
+logger = logging.getLogger()
+logger.setLevel(logging.INFO)
+logfile = "log/" + time.strftime("%Y%m%d%H%M%S", time.localtime()) + '.log'
+fileHandler = logging.FileHandler(logfile, mode='w')
+fileHandler.setLevel(logging.INFO)
+streamHandler = logging.StreamHandler()
+streamHandler.setLevel(logging.INFO)
+logger.addHandler(fileHandler)
+logger.addHandler(streamHandler)
 
 app = Flask(__name__, instance_relative_config=True, static_url_path='')
 app.config.from_object('config.default')

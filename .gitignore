@@ -3,6 +3,7 @@
 docs/
 instance/
 logger.log
+log/
 run.sh
 
 **/scss/
